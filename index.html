@@ -753,13 +753,22 @@ function tierProgress(score){
   }
   return {state:'pending',label:'Not refined',placed:0,total};
 }
+function markTierRanked(score){
+  const ids=tierExistingOrder(Number(score));
+  state.tierOrders[score]=[...ids];
+  state.tierSorted[score]=true;
+  if(state.mandatoryRefine&&Number(state.mandatoryScore)===Number(score)){
+    state.mandatoryRefine=false;state.mandatoryScore=null;state.mandatoryOrder=[];state.mandatoryQueue=[];state.mandatoryCandidate=null;state.pair=null;state.activeTierScore=null;
+  }
+  composeTierRanking();saveState();renderResults();
+}
 function renderRefinementStatus(){
   const el=document.getElementById('refinementStatus');if(!el)return;
   const rows=[];
   for(let score=10;score>=1;score--){
     const total=tierSongs(score).length;if(!total)continue;
     const p=tierProgress(score);
-    const action=p.state==='complete'&&total>1?`<button class="adjust-btn" onclick="revisitTier(${score})">Revisit</button>`:p.state==='pending'||p.state==='partial'?`<button class="adjust-btn" onclick="revisitTier(${score})">${p.state==='partial'?'Resume':'Rank'}</button>`:'';
+    const action=p.state==='complete'&&total>1?`<button class="adjust-btn" onclick="revisitTier(${score})">Revisit</button>`:p.state==='pending'||p.state==='partial'?`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="adjust-btn" onclick="revisitTier(${score})">${p.state==='partial'?'Resume':'Rank'}</button><button class="adjust-btn" onclick="markTierRanked(${score})">Keep current order</button></div>`:'';
     rows.push(`<div class="refine-status-row"><b>${score}s</b><div><div class="refine-status-state">${p.label}</div><div class="small">${total} song${total===1?'':'s'}</div></div><div>${action}</div></div>`);
   }
   el.innerHTML=`<div class="refine-status-list">${rows.join('')}</div>`+(allTiersSorted()?'<div class="small" style="margin-top:10px">All score groups are ranked. Use Adjust on a song to challenge the tier above.</div>':'');
