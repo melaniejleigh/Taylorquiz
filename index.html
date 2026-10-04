@@ -44,7 +44,7 @@ h1{font-size:24px}h2{font-size:22px}
 <section id="missing" class="panel hidden"><h1>A few songs weren’t on your spreadsheet</h1><p>Rank these real quick so your results include the newer songs too. Tap <b style="color:var(--text)">?</b> if you don’t know one.</p><div id="missingSongList" class="song-list"></div><div class="actions"><button class="btn primary" onclick="finishMissingScores()">Done →</button><button class="btn soft" onclick="section('summary');renderSummary()">Skip for now</button></div></section>
 <section id="summary" class="panel hidden"><h1>Your quick scores</h1><p id="summaryText">Here’s the first-pass picture. You can stop here and browse your scores, or refine the close calls into an actual song order.</p><div id="albumSummary" class="summary-grid"></div><div class="actions"><button class="btn primary" onclick="startRefine()">Refine my ranking</button><button class="btn" onclick="openResults('songs')">Results & compare</button><button class="btn" onclick="showScoreTable()">See all my scores</button><button class="btn soft" onclick="resumeRatings()">Edit scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div id="scoreTable"></div></section>
 <section id="refine" class="panel hidden"><div class="small" style="text-align:center;margin-bottom:8px">Refine your ranking · stop whenever you want</div><h2 style="text-align:center">Which do you prefer?</h2><p style="text-align:center;margin-top:4px">Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.</p><div id="swipeZone" class="swipe-zone"><div id="pair" class="pair"><button class="choice" id="leftChoice" onclick="chooseRefine('left')" aria-label="Choose left song"></button><div class="vs">VS</div><button class="choice" id="rightChoice" onclick="chooseRefine('right')" aria-label="Choose right song"></button></div><div class="swipe-hint">← left song wins &nbsp; · &nbsp; ↑ not sure &nbsp; · &nbsp; right song wins →</div></div><div class="refine-buttons"><button class="btn refine-icon" onclick="chooseRefine('left')" id="leftBtn" aria-label="Choose left song" title="Left song">←</button><button class="btn refine-icon not-sure" onclick="chooseRefine('unsure')" aria-label="Not sure" title="Not sure">↑</button><button class="btn refine-icon" onclick="chooseRefine('right')" id="rightBtn" aria-label="Choose right song" title="Right song">→</button></div><button class="btn danger wide" style="margin-top:9px" onclick="toggleUnknownPicker()">I don’t know one of these songs</button><div id="unknownPicker" class="unknown-picker hidden"><div class="small">Which one don’t you know?</div><div class="grid"><button class="btn" id="unknownLeft" onclick="markUnknownRefine('left')"></button><button class="btn" id="unknownRight" onclick="markUnknownRefine('right')"></button></div></div><div class="footer-actions"><button class="btn primary" onclick="finishRefine()">See my ranking</button><button class="btn soft" onclick="section('summary');renderSummary()">Back to scores</button></div></section>
-<section id="results" class="panel hidden"><h1>Your ranking</h1><p id="resultSummary"></p><div class="actions"><button class="btn primary" onclick="refineMore()">Keep refining</button><button class="btn" onclick="shareResults()">Share my results</button><button class="btn" onclick="section('summary');renderSummary()">Quick scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button><button class="btn tab" onclick="showTab('share',this)">Save / share</button></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden"><div class="notice" style="margin-bottom:12px">Compare is available anytime. Right now you can add a friend’s exported ranking here. The published-list columns we discussed, like Rob Sheffield / Reddit / Pitchfork, are the next data layer to load into this same table.</div><div class="grid2"><div><label class="small">Name</label><input id="compareName" placeholder="e.g. Sam"></div><div><label class="small">Paste their ranking</label><textarea id="compareText" placeholder="Song|1;Song|2;..."></textarea></div></div><button class="btn" style="margin-top:10px" onclick="addComparison()">Add comparison column</button><div id="comparisonList" class="small" style="margin-top:12px"></div><div id="compareTable"></div></div><div id="tab-share" class="hidden"><p>Copy this anywhere. Paste it back later to restore your final ranking, or send it to someone so they can add you as a comparison column.</p><textarea id="exportText" readonly></textarea><div class="actions"><button class="btn primary" onclick="copyExport(event)">Copy ranking</button><button class="btn" onclick="downloadExport()">Download text</button></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Shareable quiz link</div><input id="shareLink" readonly><div class="actions"><button class="btn primary" onclick="copyShareLink(event)">Copy invite link</button></div></div></div></section>
+<section id="results" class="panel hidden"><h1>Your ranking</h1><p id="resultSummary"></p><div class="actions"><button class="btn primary" onclick="refineMore()">Keep refining</button><button class="btn" onclick="shareResults()">Share my results</button><button class="btn" onclick="section('summary');renderSummary()">Quick scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button><button class="btn tab" onclick="showTab('share',this)">Save / share</button></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden"><div id="criticSourceNote" class="notice" style="margin-bottom:12px">Loading published rankings…</div><div class="grid2"><div><label class="small">Name</label><input id="compareName" placeholder="e.g. Sam"></div><div><label class="small">Paste their ranking</label><textarea id="compareText" placeholder="Song|1;Song|2;..."></textarea></div></div><button class="btn" style="margin-top:10px" onclick="addComparison()">Add comparison column</button><div id="comparisonList" class="small" style="margin-top:12px"></div><div id="compareTable"></div></div><div id="tab-share" class="hidden"><p>Copy this anywhere. Paste it back later to restore your final ranking, or send it to someone so they can add you as a comparison column.</p><textarea id="exportText" readonly></textarea><div class="actions"><button class="btn primary" onclick="copyExport(event)">Copy ranking</button><button class="btn" onclick="downloadExport()">Download text</button></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Shareable quiz link</div><input id="shareLink" readonly><div class="actions"><button class="btn primary" onclick="copyShareLink(event)">Copy invite link</button></div></div></div></section>
 <section id="sharedInvite" class="panel hidden"><h1 id="sharedInviteTitle">Someone sent you their Taylor ranking</h1><p id="sharedInviteText">You can peek at their results now, or take the quiz first and compare when you’re done.</p><div class="actions"><button class="btn primary" onclick="startFromShared()">Take the quiz</button><button class="btn" onclick="viewSharedResults()">View their ranking</button><button class="btn soft" onclick="dismissSharedInvite()">Not now</button></div></section>
 <section id="importer" class="panel hidden"><h1>Import ranking</h1><p>Paste a ranking previously exported from this app.</p><textarea id="restoreText"></textarea><div class="actions"><button class="btn primary" onclick="restoreRanking()">Restore</button><button class="btn soft" onclick="goHome()">Cancel</button></div></section>
 </div><script>
@@ -68,6 +68,37 @@ const ERA_COLORS={
 };
 function eraColor(album){return ERA_COLORS[album]||'#777'}
 function displayScore(v){if(!Number.isFinite(Number(v)))return '—';return String(Math.round(Number(v)))}
+let CRITIC_SOURCES=[];
+function referenceSongIds(title){
+  const n=normalizeImportTitle(title);
+  if(n==='all too well both versions'){
+    return SONGS.filter(s=>['All Too Well','All Too Well 10 Minute Version'].includes(s.title)).map(s=>s.id);
+  }
+  if(n==='all too well 10 min version'||n==='all too well 10 minute version'){
+    const s=SONGS.find(x=>normalizeImportTitle(x.title)==='all too well 10 minute version');return s?[s.id]:[];
+  }
+  const s=findSongForImport(title);return s?[s.id]:[];
+}
+async function loadCriticSources(){
+  try{
+    const res=await fetch('critic-rankings.json',{cache:'no-store'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    CRITIC_SOURCES=Object.values(data.sources||{}).map(src=>{
+      const ranks={};
+      for(const item of src.items||[]){
+        for(const id of referenceSongIds(item.title)){
+          if(ranks[id]==null||item.rank<ranks[id])ranks[id]=item.rank;
+        }
+      }
+      return {...src,ranks};
+    });
+    renderCompare();
+  }catch(e){
+    console.error('Could not load critic rankings',e);
+    const note=document.getElementById('criticSourceNote');if(note)note.textContent='Published rankings could not load right now. Friend comparisons still work.';
+  }
+}
 const STORAGE='taylor-ranker-v4';
 function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,savedAt:null}}
 function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[]})}catch(e){return null}}
@@ -310,7 +341,11 @@ const IMPORT_ALIASES={
   'all you had to was stay':'all you had to do was stay',
   'dont you':'don t you',
   'slut':'slut',
-  'thank you aimee':'thank you aimee'
+  'thank you aimee':'thank you aimee',
+  'all too well 10 min version':'all too well 10 minute version',
+  'all too well 10 minute version':'all too well 10 minute version',
+  'the last great american dynasty':'the last great american dynasty',
+  'tis the damn season':'tis the damn season'
 };
 function findSongForImport(title){let n=normalizeImportTitle(title);n=IMPORT_ALIASES[n]||n;let exact=SONGS.find(s=>normalizeImportTitle(s.title)===n);if(exact)return exact;const stripped=n.replace(/ taylor s version/g,'').replace(/ from the vault/g,'').trim();return SONGS.find(s=>normalizeImportTitle(s.title).replace(/ taylor s version/g,'').replace(/ from the vault/g,'').trim()===stripped)||null}
 async function importCompletedSpreadsheet(ev){
@@ -362,9 +397,31 @@ function showImportRestore(){section('importer')}
 function restoreRanking(){const p=parseExport(document.getElementById('restoreText').value),e=Object.entries(p.ranks).sort((a,b)=>a[1]-b[1]);if(!e.length)return alert('I could not find a ranking in that text.');state.finalOrder=e.map(x=>x[0]);state.unknown={};p.unknown.forEach(id=>state.unknown[id]=true);saveState();section('results');renderResults()}
 function addComparison(){const name=document.getElementById('compareName').value.trim()||`Person ${(state.comparisons||[]).length+1}`,p=parseExport(document.getElementById('compareText').value);if(!Object.keys(p.ranks).length)return alert('I could not find any ranked songs in that paste.');state.comparisons=state.comparisons||[];state.comparisons.push({name,ranks:p.ranks});document.getElementById('compareName').value='';document.getElementById('compareText').value='';saveState();renderCompare()}
 function removeComparison(i){state.comparisons.splice(i,1);saveState();renderCompare()}
-function renderCompare(){const comps=state.comparisons||[];document.getElementById('comparisonList').innerHTML=comps.length?comps.map((c,i)=>`<span class="pill">${esc(c.name)} <button onclick="removeComparison(${i})" style="all:unset;cursor:pointer;margin-left:5px">×</button></span>`).join(' '):'No imported comparisons yet.';const final=getFinal();let h='<div class="table-wrap"><table><thead><tr><th>#</th><th>Song</th><th class="vertical-head"><span>Yours</span></th>';comps.forEach(c=>h+=`<th class="vertical-head"><span>${esc(c.name)}</span></th>`);h+='</tr></thead><tbody>';final.forEach((s,i)=>{h+=`<tr class="result-row" style="--era:${eraColor(s.album)}"><td class="rank">${i+1}</td><td><span class="song-era-dot"></span>${esc(s.title)}</td><td>${i+1}</td>`;comps.forEach(c=>h+=`<td>${c.ranks[s.id]??'—'}</td>`);h+='</tr>'});document.getElementById('compareTable').innerHTML=h+'</tbody></table></div>'}
+function renderCompare(){
+  const comps=state.comparisons||[];
+  const note=document.getElementById('criticSourceNote');
+  if(note){
+    if(CRITIC_SOURCES.length){
+      note.innerHTML='<b>Published rankings</b> · '+CRITIC_SOURCES.map(s=>esc(s.subtitle)).join(' · ')+'<br><span class="small">A dash means that source did not rank that song. Add a friend below for another column.</span>';
+    }else note.textContent='Loading published rankings…';
+  }
+  document.getElementById('comparisonList').innerHTML=comps.length?comps.map((c,i)=>`<span class="pill">${esc(c.name)} <button onclick="removeComparison(${i})" style="all:unset;cursor:pointer;margin-left:5px">×</button></span>`).join(' '):'No friend comparisons added yet.';
+  const final=getFinal();
+  let h='<div class="table-wrap"><table><thead><tr><th>#</th><th>Song</th><th class="vertical-head"><span>Yours</span></th>';
+  CRITIC_SOURCES.forEach(s=>h+=`<th class="vertical-head" title="${esc(s.subtitle)}"><span>${esc(s.short||s.label)}</span></th>`);
+  comps.forEach(c=>h+=`<th class="vertical-head"><span>${esc(c.name)}</span></th>`);
+  h+='</tr></thead><tbody>';
+  final.forEach((s,i)=>{
+    h+=`<tr class="result-row" style="--era:${eraColor(s.album)}"><td class="rank">${i+1}</td><td><span class="song-era-dot"></span>${esc(s.title)}</td><td>${i+1}</td>`;
+    CRITIC_SOURCES.forEach(src=>h+=`<td>${src.ranks[s.id]??'—'}</td>`);
+    comps.forEach(c=>h+=`<td>${c.ranks[s.id]??'—'}</td>`);
+    h+='</tr>';
+  });
+  document.getElementById('compareTable').innerHTML=h+'</tbody></table></div>';
+}
 function showTab(name,btn){['songs','albums','compare','share'].forEach(x=>document.getElementById('tab-'+x).classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
 document.getElementById('songTotal').textContent=SONGS.length;
+loadCriticSources();
 setupSwipe();
 if(!loadSharedFromHash()){if(state.phase==='ratings'){section('ratings');renderAlbum(false)}else if(state.phase==='missing'){section('missing');renderMissingScores(false)}else if(state.phase==='summary'){section('summary');renderSummary()}else if(state.phase==='refine'){section('refine');nextRefinePair()}else if(state.phase==='results'&&state.finalOrder?.length){section('results');renderResults()}else section('start');}
 updateGlobalNav();
