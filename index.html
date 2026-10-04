@@ -67,7 +67,6 @@ h1{font-size:24px}h2{font-size:22px}
 <section id="results" class="panel hidden"><h1>Your ranking</h1><p id="resultSummary"></p><details id="refinementStatusBox" style="margin-top:12px"><summary style="cursor:pointer;font-weight:800">Refinement status</summary><div id="refinementStatus" style="margin-top:10px"></div></details><div class="actions"><button class="btn primary" id="refineMoreBtn" onclick="refineMore()">Keep refining</button><button class="btn soft hidden" id="resultUndoBtn" onclick="undoResultAdjustment()">Undo last adjustment</button><button class="btn" onclick="shareResults()">Share my results</button><button class="btn" onclick="openCloudSaves('save')">Save for later</button><button class="btn" onclick="showUnscored()">Rank unscored songs</button><button class="btn" onclick="section('summary');renderSummary()">Quick scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button><button class="btn tab" onclick="showTab('share',this)">Save / share</button></div><div id="rankAdjustPanel" class="hidden"></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden">
   <h2 style="margin-bottom:8px">Compare my scores to</h2>
   <div id="comparePicker" class="compare-picker"></div>
-  <div id="criticSourceNote" class="small" style="margin-top:10px"></div>
   <div id="compareTable"></div>
   <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:800">Add a friend ranking</summary>
     <div class="grid2" style="margin-top:12px"><div><label class="small">Name</label><input id="compareName" placeholder="e.g. Sam"></div><div><label class="small">Paste their ranking</label><textarea id="compareText" placeholder="Song|1;Song|2;..."></textarea></div></div>
@@ -127,7 +126,7 @@ async function loadCriticSources(){
     renderCompare();
   }catch(e){
     console.error('Could not load critic rankings',e);
-    const note=document.getElementById('criticSourceNote');if(note)note.textContent='Published rankings could not load right now. Friend comparisons still work.';
+
   }
 }
 const SUPABASE_URL='https://addrwrrsrozamnodxbad.supabase.co';
@@ -1054,13 +1053,6 @@ function renderCompare(){
   const selected=choices.find(x=>x.key===compareSelected)||null;
   const picker=document.getElementById('comparePicker');
   if(picker)picker.innerHTML=choices.length?choices.map(x=>`<button class="btn ${selected&&x.key===selected.key?'active':''}" onclick="selectComparison('${x.key}')">${esc(x.name)}</button>`).join(''):'<div class="small">No comparison sources available yet.</div>';
-
-  const note=document.getElementById('criticSourceNote');
-  if(note){
-    if(selected?.type==='critic')note.textContent=selected.subtitle||selected.name;
-    else if(selected)note.textContent='Comparing your ranking with '+selected.name+'.';
-    else note.textContent='Choose a source or add a friend ranking.';
-  }
 
   const comps=state.comparisons||[];
   const list=document.getElementById('comparisonList');
