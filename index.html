@@ -3,7 +3,7 @@
 <style>
 :root{--bg:#0f1014;--panel:#171920;--panel2:#20232c;--text:#f6f2f5;--muted:#aaa6ad;--border:#303440;--accent:#d8b7d8;--accent2:#f0d6a8;--good:#b8d7b4}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,textarea,input{font:inherit}button{touch-action:manipulation}.app{max-width:980px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.brand{font-weight:850;font-size:20px}.top-actions{display:flex;gap:6px;align-items:center}.top.refine-top .top-actions{width:100%}.top.refine-top #globalBack{margin-right:auto}.top.refine-top .brand{display:none}.navbtn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:8px 10px;border-radius:10px;font-weight:750;cursor:pointer;white-space:nowrap}.iconbtn{width:38px;height:38px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:18px}.pill{font-size:12px;color:var(--muted);border:1px solid var(--border);padding:6px 9px;border-radius:999px}.panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px}.hidden{display:none!important}h1{font-size:30px;line-height:1.05;margin:0 0 10px;letter-spacing:-.04em}h2{margin:0 0 8px}p{color:var(--muted);line-height:1.45}.notice{border:1px solid var(--border);background:#12141a;padding:12px;border-radius:12px;color:var(--muted);font-size:13px}.actions,.footer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:12px 14px;border-radius:12px;cursor:pointer;font-weight:750}.btn.primary{background:var(--text);color:#111;border-color:transparent}.btn.soft{background:transparent}.btn.danger{border-style:dashed;color:var(--muted)}.btn.wide{width:100%}.home-panel{text-align:center;padding:34px 18px}.home-title{font-size:42px;margin-bottom:24px}.home-actions{display:grid;gap:10px;max-width:420px;margin:0 auto}.home-actions .btn{width:100%;font-size:17px;padding:15px}.home-actions .btn.primary{font-size:20px;padding:18px}.results-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.results-head h1{margin:0}.refine-menu-list{display:grid;gap:8px;margin-top:14px}.refine-menu-row{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}.progress-wrap{margin:12px 0 18px}.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}.progress{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}.progress>div{height:100%;background:var(--accent)}
-.album-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-bottom:8px}.album-count{font-size:12px;color:var(--muted)}.song-list{display:grid;gap:7px;margin-top:12px}.song-row{display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}.song-name{font-weight:720;line-height:1.15}.song-context{font-size:12px;color:var(--accent2);margin-top:4px}.rate-wrap{display:flex;align-items:center;gap:4px}.rate-scroll{display:flex;gap:3px}.rate{width:34px;height:34px;padding:0;border-radius:9px;border:1px solid var(--border);background:#111319;color:var(--muted);font-weight:760;cursor:pointer}.rate.selected{background:var(--text);color:#111;border-color:var(--text)}.unknown-btn{width:38px;height:34px;padding:0;border-radius:9px;border:1px dashed var(--border);background:transparent;color:var(--muted);cursor:pointer}.unknown-btn.selected{background:var(--accent2);color:#151515;border-style:solid}.album-nav{display:flex;justify-content:space-between;gap:8px;margin-top:16px;position:sticky;bottom:8px;padding-top:10px;background:linear-gradient(transparent,var(--panel) 25%)}.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-top:14px}.album-rank-list{display:grid;gap:3px;margin-top:8px}.album-rank-row{border:1px solid color-mix(in srgb,var(--era) 42%,var(--border));background:linear-gradient(100deg,color-mix(in srgb,var(--era) 30%,var(--panel2)) 0%,color-mix(in srgb,var(--era) 14%,var(--panel2)) 42%,var(--panel2) 100%);border-radius:9px;overflow:hidden;position:relative}.album-rank-row:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--era)}.album-rank-main{display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:center;padding:7px 9px;cursor:pointer;min-height:38px}.album-rank-num{font-weight:850;color:var(--muted);font-size:12px;text-align:center}.album-rank-name{font-weight:820;font-size:14px;line-height:1}.album-rank-score{font-size:16px;font-weight:850}.album-rank-detail{border-top:1px solid color-mix(in srgb,var(--era) 35%,var(--border));padding:7px 9px 9px;background:color-mix(in srgb,var(--era) 8%,var(--panel))}.album-song-row{display:grid;grid-template-columns:42px 1fr 54px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}.album-song-row:last-child{border-bottom:0}.album-song-rank{color:var(--muted)}.album-song-score{text-align:right;color:var(--muted)}.summary-card{border:1px solid var(--border);background:var(--panel2);border-radius:13px;padding:12px;position:relative;overflow:hidden}.summary-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--era,var(--border))}.summary-card.era-card{background:linear-gradient(135deg,color-mix(in srgb,var(--era) 20%,var(--panel2)),var(--panel2) 55%)}.song-era-dot{display:inline-block;width:9px;height:9px;border-radius:99px;background:var(--era,var(--border));margin-right:8px}.result-row{--era:var(--border)}.song-rank-list,.compare-rank-list{display:grid;gap:3px;margin-top:8px}.song-rank-row,.compare-rank-row{border:1px solid color-mix(in srgb,var(--era) 42%,var(--border));background:linear-gradient(100deg,color-mix(in srgb,var(--era) 30%,var(--panel2)) 0%,color-mix(in srgb,var(--era) 14%,var(--panel2)) 42%,var(--panel2) 100%);border-radius:9px;overflow:hidden;position:relative}.song-rank-row:before,.compare-rank-row:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--era)}.song-rank-main{display:grid;grid-template-columns:34px minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:7px 9px;min-height:38px}.song-rank-num{font-weight:850;color:var(--muted);font-size:12px;text-align:center}.song-rank-title{font-weight:820;font-size:14px;line-height:1.05;min-width:0}.song-rank-album{font-size:12px;color:var(--muted);white-space:nowrap}.compare-rank-main{display:grid;grid-template-columns:44px 44px minmax(0,1fr);gap:8px;align-items:center;padding:7px 9px;min-height:38px}.compare-score{font-weight:850;text-align:center;font-size:13px}.compare-song-title{font-weight:820;font-size:14px;line-height:1.05}.compare-sortbar{display:flex;gap:6px;margin-top:10px}.compare-sortbar .btn{padding:8px 10px;font-size:12px}.adjust-btn{border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:8px;padding:5px 8px;cursor:pointer;font-size:12px}.rank-adjust{border:1px solid var(--border);background:#12141a;border-radius:14px;padding:12px;margin:10px 0}.rank-adjust-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.rank-adjust-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.rank-adjust .rate-scroll{overflow-x:auto;padding-bottom:4px}.summary-card .score{font-size:26px;font-weight:850;margin-top:6px}.summary-card .small{font-size:12px;color:var(--muted);margin-top:3px}
+.album-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-bottom:8px}.album-count{font-size:12px;color:var(--muted)}.song-list{display:grid;gap:7px;margin-top:12px}.song-row{display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}.song-name{font-weight:720;line-height:1.15}.song-context{font-size:12px;color:var(--accent2);margin-top:4px}.rate-wrap{display:flex;align-items:center;gap:4px}.rate-scroll{display:flex;gap:3px}.rate{width:34px;height:34px;padding:0;border-radius:9px;border:1px solid var(--border);background:#111319;color:var(--muted);font-weight:760;cursor:pointer}.rate.selected{background:var(--text);color:#111;border-color:var(--text)}.unknown-btn{width:38px;height:34px;padding:0;border-radius:9px;border:1px dashed var(--border);background:transparent;color:var(--muted);cursor:pointer}.unknown-btn.selected{background:var(--accent2);color:#151515;border-style:solid}.album-nav{display:flex;justify-content:space-between;gap:8px;margin-top:16px;position:sticky;bottom:8px;padding-top:10px;background:linear-gradient(transparent,var(--panel) 25%)}.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-top:14px}.album-rank-list{display:grid;gap:3px;margin-top:8px}.album-rank-row{border:1px solid color-mix(in srgb,var(--era) 42%,var(--border));background:linear-gradient(100deg,color-mix(in srgb,var(--era) 30%,var(--panel2)) 0%,color-mix(in srgb,var(--era) 14%,var(--panel2)) 42%,var(--panel2) 100%);border-radius:9px;overflow:hidden;position:relative}.album-rank-row:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--era)}.album-rank-main{display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:center;padding:7px 9px;cursor:pointer;min-height:38px}.album-rank-num{font-weight:850;color:var(--muted);font-size:12px;text-align:center}.album-rank-name{font-weight:820;font-size:14px;line-height:1}.album-rank-score{font-size:16px;font-weight:850}.album-rank-detail{border-top:1px solid color-mix(in srgb,var(--era) 35%,var(--border));padding:7px 9px 9px;background:color-mix(in srgb,var(--era) 8%,var(--panel))}.album-song-row{display:grid;grid-template-columns:42px 1fr 54px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}.album-song-row:last-child{border-bottom:0}.album-song-rank{color:var(--muted)}.album-song-score{text-align:right;color:var(--muted)}.summary-card{border:1px solid var(--border);background:var(--panel2);border-radius:13px;padding:12px;position:relative;overflow:hidden}.summary-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--era,var(--border))}.summary-card.era-card{background:linear-gradient(135deg,color-mix(in srgb,var(--era) 20%,var(--panel2)),var(--panel2) 55%)}.song-era-dot{display:inline-block;width:9px;height:9px;border-radius:99px;background:var(--era,var(--border));margin-right:8px}.result-row{--era:var(--border)}.song-rank-list,.compare-rank-list{display:grid;gap:3px;margin-top:8px}.song-rank-row,.compare-rank-row{border:1px solid color-mix(in srgb,var(--era) 42%,var(--border));background:linear-gradient(100deg,color-mix(in srgb,var(--era) 30%,var(--panel2)) 0%,color-mix(in srgb,var(--era) 14%,var(--panel2)) 42%,var(--panel2) 100%);border-radius:9px;overflow:hidden;position:relative}.song-rank-row{cursor:pointer}.song-rank-row:before,.compare-rank-row:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--era)}.song-rank-main{display:grid;grid-template-columns:34px minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:7px 9px;min-height:38px}.song-rank-num{font-weight:850;color:var(--muted);font-size:12px;text-align:center}.song-rank-title{font-weight:820;font-size:14px;line-height:1.05;min-width:0}.song-rank-album{font-size:12px;color:var(--muted);white-space:nowrap}.compare-rank-main{display:grid;grid-template-columns:44px 44px minmax(0,1fr);gap:8px;align-items:center;padding:7px 9px;min-height:38px}.compare-score{font-weight:850;text-align:center;font-size:13px}.compare-song-title{font-weight:820;font-size:14px;line-height:1.05}.compare-sortbar{display:flex;gap:6px;margin-top:10px}.compare-sortbar .btn{padding:8px 10px;font-size:12px}.adjust-btn{border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:8px;padding:5px 8px;cursor:pointer;font-size:12px}.rank-adjust{border:1px solid var(--border);background:#12141a;border-radius:14px;padding:12px;margin:10px 0}.rank-adjust-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.rank-adjust-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.rank-adjust .rate-scroll{overflow-x:auto;padding-bottom:4px}.summary-card .score{font-size:26px;font-weight:850;margin-top:6px}.summary-card .small{font-size:12px;color:var(--muted);margin-top:3px}
 .swipe-zone{position:relative;min-height:380px;margin-top:18px;touch-action:none;user-select:none}.pair{display:grid;grid-template-columns:1fr 54px 1fr;gap:10px;align-items:stretch;transition:transform .15s ease,opacity .15s ease}.choice{border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:18px;padding:28px 14px;text-align:center;min-height:240px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;width:100%}.choice .t{font-size:27px;font-weight:850;line-height:1.08}.choice .a{font-size:13px;color:var(--muted);margin-top:9px}.choice .c{font-size:12px;color:var(--accent2);margin-top:7px;line-height:1.35}.choice .r{font-size:12px;color:var(--good);margin-top:10px;font-weight:800}.vs{display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:800}.swipe-hint{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}.refine-buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}.refine-buttons .btn{min-height:52px}.refine-icon{font-size:22px;padding:0}.not-sure{color:var(--accent2)}.unknown-picker{margin-top:10px;border:1px dashed var(--border);border-radius:12px;padding:10px}.unknown-picker .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;margin-top:14px}table{border-collapse:collapse;width:100%;min-width:590px}th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}th{font-size:12px;color:var(--muted);background:#14161c;position:sticky;top:0}td.rank{width:54px;color:var(--muted)}td.albumcell{color:var(--muted);font-size:13px}.tabs{display:flex;gap:6px;overflow:auto;margin:12px 0}.tab.active{background:var(--text);color:#111}.vertical-head{height:110px;width:56px;padding:0;vertical-align:bottom}.vertical-head span{display:inline-block;transform:rotate(-65deg);transform-origin:bottom left;white-space:nowrap;margin-left:28px;margin-bottom:6px;font-size:11px}.compare-table th:first-child,.compare-table td:first-child{position:sticky;left:0;z-index:4;background:#14161c;min-width:48px}.compare-table th:nth-child(2),.compare-table td:nth-child(2){position:sticky;left:48px;z-index:3;background:var(--panel);min-width:190px;box-shadow:8px 0 12px rgba(0,0,0,.18)}.compare-table tbody tr:nth-child(even) td:nth-child(2){background:#191b22}.compare-picker{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px}.compare-picker .btn{flex:0 0 auto}.compare-picker .btn.active{background:var(--text);color:#111;border-color:transparent}.compare-simple{min-width:0}.compare-simple th,.compare-simple td{padding:10px 9px}.compare-simple th.score-head{width:64px;text-align:center;cursor:pointer;user-select:none}.compare-simple td.score-cell{width:64px;text-align:center;font-weight:800}.compare-simple th.song-head{min-width:180px}.compare-simple .sort-arrow{font-size:10px;color:var(--muted);margin-left:3px}textarea{width:100%;min-height:120px;background:#111319;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px}input{width:100%;background:#111319;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:11px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.small{font-size:12px;color:var(--muted)}.score-chip{display:inline-flex;align-items:center;justify-content:center;min-width:29px;height:27px;border-radius:8px;background:var(--panel2);font-weight:800}.refine-status-list{display:grid;gap:7px}.refine-status-row{display:grid;grid-template-columns:54px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}.refine-status-state{font-size:12px;color:var(--muted)}details{margin-top:14px}
 @media(max-width:760px){
@@ -40,13 +40,13 @@ h1{font-size:24px}h2{font-size:22px}
 }
 </style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script></head><body><div class="app"><div class="top"><div class="brand">Swift Rankings</div><div class="top-actions"><button id="globalBack" class="navbtn iconbtn" aria-label="Back" title="Back" onclick="appBack()">←</button><button id="globalUndo" class="navbtn iconbtn" aria-label="Undo last choice" title="Undo last choice" onclick="undoRefine()">↶</button><button id="globalHome" class="navbtn iconbtn" aria-label="Home" title="Home" onclick="goHome()">⌂</button></div><div class="pill" id="saveStatus">saved locally</div></div>
 <section id="start" class="panel home-panel"><h1 class="home-title">Swift Rankings</h1><div id="homeActions" class="home-actions"></div></section>
-<section id="intro" class="panel hidden"><h1>Start quiz</h1><p>Pick a username so your progress saves automatically.</p><div style="max-width:420px"><label class="small">Username</label><input id="startUsername" maxlength="40" placeholder="e.g. MJ"></div><div class="notice" style="margin-top:16px"><b>How it works</b><ol style="margin:8px 0 0;padding-left:20px;line-height:1.55"><li>Go album by album and tap a 1–10 score for each song. Go quickly. If you don’t know one, tap ?.</li><li>When you finish scoring, you can look at your album results right away.</li><li>If you want a real song ranking, use Refine Data to sort close calls with quick swipes.</li></ol></div><div class="actions"><button class="btn primary" onclick="startFreshQuiz()">Start scoring</button><button class="btn soft" onclick="goHome()">Back</button></div><div id="startStatus" class="small" style="margin-top:10px"></div></section>
+<section id="intro" class="panel hidden"><h1>Start quiz</h1><p>What should we call your rankings?</p><div style="max-width:420px"><label class="small">Name</label><input id="startName" maxlength="40" placeholder="e.g. MJ"></div><div class="notice" style="margin-top:16px"><b>How it works</b><ol style="margin:8px 0 0;padding-left:20px;line-height:1.55"><li>Go album by album and tap a 1–10 score for each song. Go quickly. If you don’t know one, tap ?.</li><li>When you finish scoring, you can look at your album results right away.</li><li>If you want a real song ranking, use Refine Data to sort close calls with quick swipes.</li></ol></div><div class="actions"><button class="btn primary" onclick="startFreshQuiz()">Start scoring</button><button class="btn soft" onclick="goHome()">Back</button></div><div id="startStatus" class="small" style="margin-top:10px"></div></section>
 <section id="cloud" class="panel hidden">
   <h1 id="cloudTitle">Save for later</h1>
-  <p id="cloudIntro">Use any username you’ll remember. No password or email needed.</p>
+  <p id="cloudIntro">Enter the name you used before. No password or email needed.</p>
   <div class="grid2">
     <div>
-      <label class="small">Username</label>
+      <label class="small">Name</label>
       <input id="cloudUsernameInput" maxlength="40" placeholder="e.g. MJ">
     </div>
     <div style="align-self:end">
@@ -66,7 +66,7 @@ h1{font-size:24px}h2{font-size:22px}
 <section id="summary" class="panel hidden"><h1>album results</h1><div id="albumSummary" class="summary-grid"></div><div class="actions"><button class="btn primary" onclick="openResults('songs')">See song results</button><button class="btn" onclick="openRefineMenu()">Refine Data</button><button class="btn soft" onclick="resumeRatings()">Edit scores</button></div><div id="scoreTable"></div></section>
 <section id="refine" class="panel hidden"><div id="refineStatus" class="small" style="text-align:center;margin-bottom:8px">Refine your ranking · stop whenever you want</div><h2 style="text-align:center">Which do you prefer?</h2><p style="text-align:center;margin-top:4px">Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.</p><div id="swipeZone" class="swipe-zone"><div id="pair" class="pair"><button class="choice" id="leftChoice" onclick="chooseRefine('left')" aria-label="Choose left song"></button><div class="vs">VS</div><button class="choice" id="rightChoice" onclick="chooseRefine('right')" aria-label="Choose right song"></button></div><div class="swipe-hint">Swipe anywhere on this screen · ← left wins &nbsp; · &nbsp; ↑ not sure &nbsp; · &nbsp; right wins →</div></div><div class="refine-buttons"><button class="btn refine-icon" onclick="chooseRefine('left')" id="leftBtn" aria-label="Choose left song" title="Left song">←</button><button class="btn refine-icon not-sure" onclick="chooseRefine('unsure')" aria-label="Not sure" title="Not sure">↑</button><button class="btn refine-icon" onclick="chooseRefine('right')" id="rightBtn" aria-label="Choose right song" title="Right song">→</button></div><button class="btn danger wide" style="margin-top:9px" onclick="toggleUnknownPicker()">I don’t know one of these songs</button><div id="unknownPicker" class="unknown-picker hidden"><div class="small">Which one don’t you know?</div><div class="grid"><button class="btn" id="unknownLeft" onclick="markUnknownRefine('left')"></button><button class="btn" id="unknownRight" onclick="markUnknownRefine('right')"></button></div></div><div class="footer-actions"><button class="btn primary" onclick="finishRefine()">See my ranking</button><button class="btn soft" onclick="section('summary');renderSummary()">Back to scores</button></div></section>
 <section id="refineMenu" class="panel hidden"><h1>What do you want to refine?</h1><div id="refineMenuList" class="refine-menu-list"></div><div class="actions"><button class="btn soft" onclick="section('results');renderResults()">Back to results</button></div></section>
-<section id="results" class="panel hidden"><div class="results-head"><h1>your results</h1><div style="display:flex;gap:7px"><button class="btn soft hidden" id="resultUndoBtn" onclick="undoResultAdjustment()">Undo</button><button class="btn" onclick="openRefineMenu()">Refine Data</button></div></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button></div><div id="rankAdjustPanel" class="hidden"></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden">
+<section id="results" class="panel hidden"><div class="results-head" style="justify-content:flex-end"><div style="display:flex;gap:7px"><button class="btn soft hidden" id="resultUndoBtn" onclick="undoResultAdjustment()">Undo</button><button class="btn" onclick="openRefineMenu()">Refine Data</button></div></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button></div><div id="rankAdjustPanel" class="hidden"></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden">
   <h2 style="margin-bottom:8px">Compare my scores to</h2>
   <div id="comparePicker" class="compare-picker"></div>
   <div id="compareTable"></div>
@@ -159,10 +159,10 @@ function cloudRefinementSummary(){
   }
   return out;
 }
-function cloudPayload(username){
+function cloudPayload(name){
   const snapshot=JSON.parse(JSON.stringify(state));
   return {
-    username:cleanUsername(username),
+    username:cleanUsername(name),
     ranking_state:snapshot,
     top_10:cloudTop10(),
     song_count:ratedCount(),
@@ -179,8 +179,8 @@ async function syncExistingCloudSave(){
   if(!state.cloudSaveId||cloudSyncing)return;
   cloudSyncing=true;
   try{
-    const username=state.cloudUsername||'Friend';
-    const payload=cloudPayload(username);
+    const name=state.cloudUsername||'Friend';
+    const payload=cloudPayload(name);
     const rows=await cloudRequest('ranking_saves?id=eq.'+encodeURIComponent(state.cloudSaveId)+'&select=id,share_code,updated_at',{
       method:'PATCH',body:payload,prefer:'return=representation'
     });
@@ -207,25 +207,25 @@ function openCloudSaves(mode='save'){
   input.value=state.cloudUsername||'';
   document.getElementById('cloudMatches').innerHTML='';
   document.getElementById('cloudStatus').textContent='';
-  document.getElementById('cloudTitle').textContent=mode==='find'?'Find my saved ranking':mode==='share'?'Save before sharing':'Save for later';
-  document.getElementById('cloudIntro').textContent=mode==='find'?'Enter the username you used before. If there are multiple saves, you can pick yours by the date and top 10.':'Use any username you’ll remember. Once you choose an existing save, future changes overwrite that same copy.';
+  document.getElementById('cloudTitle').textContent=mode==='find'?'Find my saved rankings':mode==='share'?'Save before sharing':'Save for later';
+  document.getElementById('cloudIntro').textContent=mode==='find'?'Enter the name you used before. If there are multiple matches, pick yours by the date and top 10.':'Use any name you’ll remember. Once you choose an existing save, future changes overwrite that same copy.';
   document.getElementById('cloudSaveBtn').style.display=mode==='find'?'none':'';
 }
 async function saveCloudRanking(asNew=false){
   const input=document.getElementById('cloudUsernameInput');
-  const username=cleanUsername(input.value);
+  const name=cleanUsername(input.value);
   const status=document.getElementById('cloudStatus');
-  if(!username){status.textContent='Enter a username first.';input.focus();return}
+  if(!name){status.textContent='Enter a name first.';input.focus();return}
   status.textContent='Saving…';
   try{
     let rows;
-    if(state.cloudSaveId&&!asNew&&usernameKey(username)===usernameKey(state.cloudUsername||username)){
-      rows=await cloudRequest('ranking_saves?id=eq.'+encodeURIComponent(state.cloudSaveId)+'&select=id,share_code,username,updated_at',{
-        method:'PATCH',body:cloudPayload(username),prefer:'return=representation'
+    if(state.cloudSaveId&&!asNew&&usernameKey(name)===usernameKey(state.cloudUsername||name)){
+      rows=await cloudRequest('ranking_saves?id=eq.'+encodeURIComponent(state.cloudSaveId)+'&select=id,share_code,name,updated_at',{
+        method:'PATCH',body:cloudPayload(name),prefer:'return=representation'
       });
     }else{
       rows=await cloudRequest('ranking_saves?select=id,share_code,username,updated_at',{
-        method:'POST',body:cloudPayload(username),prefer:'return=representation'
+        method:'POST',body:cloudPayload(name),prefer:'return=representation'
       });
     }
     const rec=rows&&rows[0];if(!rec)throw new Error('Save did not return a record.');
@@ -247,14 +247,14 @@ function refinementPreview(obj){
   return done.length?'Finished: '+done.join(', '):'Not refined yet';
 }
 async function findCloudRankings(){
-  const username=cleanUsername(document.getElementById('cloudUsernameInput').value);
+  const name=cleanUsername(document.getElementById('cloudUsernameInput').value);
   const status=document.getElementById('cloudStatus'),box=document.getElementById('cloudMatches');
-  if(!username){status.textContent='Enter a username first.';return}
+  if(!name){status.textContent='Enter a name first.';return}
   status.textContent='Looking…';box.innerHTML='';
   try{
-    const qs='ranking_saves?select=id,share_code,username,top_10,song_count,refinement_summary,updated_at&username_key=eq.'+encodeURIComponent(usernameKey(username))+'&order=updated_at.desc&limit=20';
+    const qs='ranking_saves?select=id,share_code,username,top_10,song_count,refinement_summary,updated_at&username_key=eq.'+encodeURIComponent(usernameKey(name))+'&order=updated_at.desc&limit=20';
     const rows=await cloudRequest(qs);
-    if(!rows?.length){status.textContent='No saves found for that username.';return}
+    if(!rows?.length){status.textContent='No saves found for that name.';return}
     status.textContent=rows.length===1?'Found 1 save.':`Found ${rows.length} saves. Pick yours.`;
     box.innerHTML=rows.map(rec=>{
       const top=(rec.top_10||[]).map((x,i)=>`${i+1}. ${esc(x.title||x.id)}`).join('<br>');
@@ -302,7 +302,7 @@ for(let score=1;score<=10;score++){
 function saveState(){const x=document.getElementById('saveStatus');try{state.savedAt=Date.now();const payload=JSON.stringify(state);localStorage.setItem(STORAGE,payload);const check=localStorage.getItem(STORAGE);if(check!==payload)throw new Error('save verification failed');if(x)x.textContent=state.finalOrder&&state.finalOrder.length?'ranking saved':'saved locally';scheduleCloudAutosave()}catch(e){if(x)x.textContent='save failed';console.error('Could not save Swift Rankings state',e)}}
 window.addEventListener('pagehide',saveState);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveState()});
-function updateGlobalNav(){const back=document.getElementById('globalBack'),home=document.getElementById('globalHome'),undo=document.getElementById('globalUndo'),top=document.querySelector('.top');if(!back||!home||!undo)return;if(top)top.classList.toggle('refine-top',state.phase==='refine');const atStart=state.phase==='start';back.style.display=atStart?'none':'';home.style.display=atStart?'none':'';undo.style.display=(state.phase==='refine'&&state.refineHistory.length)?'':'none';if(state.phase==='refine'){back.textContent='✓';back.setAttribute('aria-label','Save and exit');back.title='Save and exit'}else{back.textContent='←';back.setAttribute('aria-label','Back');back.title='Back'}home.textContent='⌂';undo.textContent='↶'}
+function updateGlobalNav(){updateBrand();const back=document.getElementById('globalBack'),home=document.getElementById('globalHome'),undo=document.getElementById('globalUndo'),top=document.querySelector('.top');if(!back||!home||!undo)return;if(top)top.classList.toggle('refine-top',state.phase==='refine');const atStart=state.phase==='start';back.style.display=atStart?'none':'';home.style.display=atStart?'none':'';undo.style.display=(state.phase==='refine'&&state.refineHistory.length)?'':'none';if(state.phase==='refine'){back.textContent='✓';back.setAttribute('aria-label','Save and exit');back.title='Save and exit'}else{back.textContent='←';back.setAttribute('aria-label','Back');back.title='Back'}home.textContent='⌂';undo.textContent='↶'}
 function section(id){['start','intro','cloud','ratings','missing','summary','refine','refineMenu','results','sharedInvite','sharedPreview','importer'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');state.phase=id;saveState();updateGlobalNav();window.scrollTo({top:0,behavior:'instant'})}
 function goHome(){section('start');renderHome()}
 function saveAndExit(){
@@ -313,6 +313,19 @@ function saveAndExit(){
   section('summary');renderSummary();
 }
 function appBack(){if(state.phase==='refine')return saveAndExit();if(state.phase==='ratings'){if(state.albumIndex>0){state.albumIndex--;saveState();renderAlbum();updateGlobalNav()}else goHome();return}if(state.phase==='summary'){section('ratings');state.albumIndex=Math.max(0,ALBUMS.length-1);saveState();renderAlbum();return}if(state.phase==='results'){section('summary');renderSummary();return}if(state.phase==='missing'){section('summary');renderSummary();return}if(state.phase==='sharedPreview'){section('sharedInvite');return}if(state.phase==='sharedInvite'){dismissSharedInvite();return}if(state.phase==='importer'){goHome();return}goHome()}
+function possessiveName(name){
+  const n=cleanUsername(name)||'Swift';
+  return /s$/i.test(n)?n+"’ rankings":n+"’s rankings";
+}
+function updateBrand(){
+  const brand=document.querySelector('.brand');if(!brand)return;
+  brand.textContent=state.cloudUsername?possessiveName(state.cloudUsername):'Swift Rankings';
+}
+function shortAlbumName(album){
+  if(album==='The Tortured Poets Department')return 'TTPD';
+  if(album==='The Life of a Showgirl')return 'TLOAS';
+  return album;
+}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function albumSongs(album){return SONGS.filter(s=>s.album===album)}
 function ratedCount(){return SONGS.filter(s=>state.ratings[s.id]!=null||state.unknown[s.id]).length}
@@ -332,22 +345,22 @@ function openExistingResults(){
   section('intro');
 }
 function restartQuiz(){
-  if(hasLocalProgress()&&!confirm('Start over? Your current saved ranking will stay in the cloud if it already has a username.'))return;
+  if(hasLocalProgress()&&!confirm('Start over? Your current saved ranking will stay in the cloud if it already has a name.'))return;
   const oldComparisons=state.comparisons||[];
   state=blankState();state.comparisons=oldComparisons;
   localStorage.setItem(STORAGE,JSON.stringify(state));
   section('intro');
 }
 async function startFreshQuiz(){
-  const input=document.getElementById('startUsername'),status=document.getElementById('startStatus');
-  const username=cleanUsername(input.value);
-  if(!username){status.textContent='Pick a username first.';input.focus();return}
+  const input=document.getElementById('startName'),status=document.getElementById('startStatus');
+  const name=cleanUsername(input.value);
+  if(!name){status.textContent='Enter your name first.';input.focus();return}
   status.textContent='Starting…';
   try{
     const fresh=blankState();
-    fresh.cloudUsername=username;
+    fresh.cloudUsername=name;
     state=fresh;
-    const rows=await cloudRequest('ranking_saves?select=id,share_code,username,updated_at',{method:'POST',body:cloudPayload(username),prefer:'return=representation'});
+    const rows=await cloudRequest('ranking_saves?select=id,share_code,username,updated_at',{method:'POST',body:cloudPayload(name),prefer:'return=representation'});
     const rec=rows&&rows[0];if(!rec)throw new Error('Could not create save');
     state.cloudSaveId=rec.id;state.cloudShareCode=rec.share_code;state.cloudUsername=rec.username;state.cloudUpdatedAt=rec.updated_at;
     localStorage.setItem(STORAGE,JSON.stringify(state));
@@ -873,11 +886,10 @@ function renderSongTable(){
   const final=getFinal();
   let h='<div class="song-rank-list">';
   final.forEach((s,i)=>{
-    h+=`<div class="song-rank-row" style="--era:${eraColor(s.album)}"><div class="song-rank-main">
+    h+=`<div class="song-rank-row" style="--era:${eraColor(s.album)}" onclick="openRankAdjust('${s.id}')"><div class="song-rank-main" style="grid-template-columns:34px minmax(0,1fr) auto">
       <div class="song-rank-num">#${i+1}</div>
       <div class="song-rank-title">${esc(s.title)}</div>
-      <div class="song-rank-album">${esc(s.album)}</div>
-      <button class="adjust-btn" onclick="openRankAdjust('${s.id}')">Adjust</button>
+      <div class="song-rank-album">${esc(shortAlbumName(s.album))}</div>
     </div></div>`;
   });
   h+='</div>';
@@ -888,14 +900,23 @@ function openRankAdjust(id){
   ensureFinalOrder();
   const rank=state.finalOrder.indexOf(id)+1;
   const score=state.ratings[id];
+  const tier=effectiveTier(id);
+  const tierDone=tierSongs(tier).length<2||!!state.tierSorted?.[tier];
+  const seenCount=Object.entries(state.refineSeen||{}).filter(([k])=>k.includes('|')&&k.split('|').includes(id)).reduce((sum,[,v])=>sum+(Number(v)||0),0);
   const panel=document.getElementById('rankAdjustPanel');
   panel.className='rank-adjust';
-  panel.innerHTML=`<div class="rank-adjust-head"><div><b>${esc(s.title)}</b><div class="small">Currently #${rank} · quick score ${displayScore(score)}</div></div><button class="adjust-btn" onclick="closeRankAdjust()">✕</button></div>
-  <div class="rank-adjust-controls">
-    <button class="btn" onclick="moveSongToRank('${id}',1)">Top of this score tier</button>
-    <button class="btn" onclick="promptSongRank('${id}')">Move to rank…</button><button class="btn" onclick="allTiersSorted()?startCrossTierChallenge('${id}','results'):startPlacement('${id}','results')">${allTiersSorted()&&nextHigherTier(effectiveTier(id))?'Challenge next tier':'Re-place with swipes'}</button>
+  panel.innerHTML=`<div class="rank-adjust-head"><div><b>${esc(s.title)}</b><div class="small">${esc(shortAlbumName(s.album))} · Current rank #${rank}</div></div><button class="adjust-btn" onclick="closeRankAdjust()">✕</button></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+    <span class="pill">Original score: ${displayScore(score)}</span>
+    <span class="pill">${tierDone?'Tier refined ✓':'Tier not fully refined'}</span>
+    ${seenCount?`<span class="pill">${seenCount} refinement choice${seenCount===1?'':'s'}</span>`:''}
   </div>
-  <div class="small" style="margin-top:12px;margin-bottom:6px">Correct quick score</div>
+  <div class="rank-adjust-controls">
+    <button class="btn" onclick="startPlacement('${id}','results')">Refine this song</button>
+    <button class="btn" onclick="allTiersSorted()?startCrossTierChallenge('${id}','results'):startPlacement('${id}','results')">${allTiersSorted()&&nextHigherTier(effectiveTier(id))?'Challenge next tier':'Place with swipes'}</button>
+    <button class="btn" onclick="promptSongRank('${id}')">Move within tier</button>
+  </div>
+  <div class="small" style="margin-top:12px;margin-bottom:6px">Change original score</div>
   <div class="rate-scroll">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="rate ${score===n?'selected':''}" onclick="correctSongScore('${id}',${n})">${n}</button>`).join('')}</div>`;
   panel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
