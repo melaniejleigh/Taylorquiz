@@ -41,7 +41,7 @@ h1{font-size:24px}h2{font-size:22px}
 </style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script></head><body><div class="app"><div class="top"><div class="brand">Taylor Ranker</div><div class="top-actions"><button id="globalBack" class="navbtn iconbtn" aria-label="Back" title="Back" onclick="appBack()">←</button><button id="globalUndo" class="navbtn iconbtn" aria-label="Undo last choice" title="Undo last choice" onclick="undoRefine()">↶</button><button id="globalHome" class="navbtn iconbtn" aria-label="Home" title="Home" onclick="goHome()">⌂</button></div><div class="pill" id="saveStatus">saved locally</div></div>
 <section id="start" class="panel"><h1>Quick scores first. Ranking drama second.</h1><p>Rate the songs album by album from 1–10. Do it fast and do not overthink the scale. Those scores give you album averages immediately, then you can swipe through close calls to turn the rough scores into your actual song order.</p><div class="notice"><b id="songTotal"></b> songs. Taylor’s Version duplicates are collapsed. Non-album songs are limited to tracks Taylor has a writing credit on, with context shown beside the title.</div><div class="actions"><button class="btn primary" onclick="beginRatings()">Start quick scoring</button><button class="btn" onclick="resumeRatings()">Resume</button><button class="btn soft" onclick="showSummaryIfAny()">See my scores</button><button class="btn soft" onclick="openResults('compare')">Compare</button><button class="btn soft" onclick="showImportRestore()">Import ranking</button></div><div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Already filled out the original Google Sheet?</div><button class="btn wide" onclick="document.getElementById('sheetImportFile').click()">Import completed spreadsheet</button><input id="sheetImportFile" type="file" accept=".xlsx,.xls" class="hidden" onchange="importCompletedSpreadsheet(event)"><div id="sheetImportStatus" class="small" style="margin-top:8px"></div></div></section>
 <section id="ratings" class="panel hidden"><div class="progress-wrap"><div class="progress-label"><span>Quick scoring</span><span id="ratingProgress"></span></div><div class="progress"><div id="ratingBar"></div></div></div><div class="album-head"><div><h1 id="albumTitle"></h1><div class="album-count" id="albumCount"></div></div><div class="pill" id="albumAverage">— avg</div></div><p style="margin-top:0">Tap a number and keep moving. <b style="color:var(--text)">?</b> means you don’t know the song.</p><div id="songList" class="song-list"></div><div class="album-nav"><button class="btn soft" onclick="prevAlbum()">← Previous</button><button class="btn primary" id="nextAlbumBtn" onclick="nextAlbum()">Next album →</button></div></section>
-<section id="missing" class="panel hidden"><h1>Unscored songs</h1><p>Only songs without a score are shown here. If you’ve listened to one since last time, give it a quick 1–10 and we’ll immediately place it into your ranking with a few swipes.</p><div id="missingSongList" class="song-list"></div><div class="actions"><button class="btn primary" onclick="finishMissingScores()">Done →</button><button class="btn soft" onclick="section('summary');renderSummary()">Skip for now</button></div></section>
+<section id="missing" class="panel hidden"><h1>Unscored songs</h1><p>Only songs without a score are shown here. Give them quick 1–10s and keep moving. We won’t interrupt you with swipes while you’re batch scoring.</p><div id="missingSongList" class="song-list"></div><div id="missingPlacementOffer" class="notice hidden" style="margin-top:14px"></div><div class="actions"><button class="btn primary" onclick="finishMissingScores()">Done →</button><button class="btn soft" onclick="section('summary');renderSummary()">Skip for now</button></div></section>
 <section id="summary" class="panel hidden"><h1>Your quick scores</h1><p id="summaryText">Here’s the first-pass picture. You can stop here and browse your scores, or refine the close calls into an actual song order.</p><div id="albumSummary" class="summary-grid"></div><div class="actions"><button class="btn primary" onclick="startRefine()">Refine my ranking</button><button class="btn" onclick="openResults('songs')">Results & compare</button><button class="btn" onclick="showScoreTable()">See all my scores</button><button class="btn" onclick="showUnscored()">Rank unscored songs</button><button class="btn soft" onclick="resumeRatings()">Edit all scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div id="scoreTable"></div></section>
 <section id="refine" class="panel hidden"><div class="small" style="text-align:center;margin-bottom:8px">Refine your ranking · stop whenever you want</div><h2 style="text-align:center">Which do you prefer?</h2><p style="text-align:center;margin-top:4px">Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.</p><div id="swipeZone" class="swipe-zone"><div id="pair" class="pair"><button class="choice" id="leftChoice" onclick="chooseRefine('left')" aria-label="Choose left song"></button><div class="vs">VS</div><button class="choice" id="rightChoice" onclick="chooseRefine('right')" aria-label="Choose right song"></button></div><div class="swipe-hint">Swipe anywhere on this screen · ← left wins &nbsp; · &nbsp; ↑ not sure &nbsp; · &nbsp; right wins →</div></div><div class="refine-buttons"><button class="btn refine-icon" onclick="chooseRefine('left')" id="leftBtn" aria-label="Choose left song" title="Left song">←</button><button class="btn refine-icon not-sure" onclick="chooseRefine('unsure')" aria-label="Not sure" title="Not sure">↑</button><button class="btn refine-icon" onclick="chooseRefine('right')" id="rightBtn" aria-label="Choose right song" title="Right song">→</button></div><button class="btn danger wide" style="margin-top:9px" onclick="toggleUnknownPicker()">I don’t know one of these songs</button><div id="unknownPicker" class="unknown-picker hidden"><div class="small">Which one don’t you know?</div><div class="grid"><button class="btn" id="unknownLeft" onclick="markUnknownRefine('left')"></button><button class="btn" id="unknownRight" onclick="markUnknownRefine('right')"></button></div></div><div class="footer-actions"><button class="btn primary" onclick="finishRefine()">See my ranking</button><button class="btn soft" onclick="section('summary');renderSummary()">Back to scores</button></div></section>
 <section id="results" class="panel hidden"><h1>Your ranking</h1><p id="resultSummary"></p><div class="actions"><button class="btn primary" onclick="refineMore()">Keep refining</button><button class="btn" onclick="shareResults()">Share my results</button><button class="btn" onclick="showUnscored()">Rank unscored songs</button><button class="btn" onclick="section('summary');renderSummary()">Quick scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button><button class="btn tab" onclick="showTab('share',this)">Save / share</button></div><div id="rankAdjustPanel" class="hidden"></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden"><div id="criticSourceNote" class="notice" style="margin-bottom:12px">Loading published rankings…</div><div class="grid2"><div><label class="small">Name</label><input id="compareName" placeholder="e.g. Sam"></div><div><label class="small">Paste their ranking</label><textarea id="compareText" placeholder="Song|1;Song|2;..."></textarea></div></div><button class="btn" style="margin-top:10px" onclick="addComparison()">Add comparison column</button><div id="comparisonList" class="small" style="margin-top:12px"></div><div id="compareTable"></div></div><div id="tab-share" class="hidden"><p>Copy this anywhere. Paste it back later to restore your final ranking, or send it to someone so they can add you as a comparison column.</p><textarea id="exportText" readonly></textarea><div class="actions"><button class="btn primary" onclick="copyExport(event)">Copy ranking</button><button class="btn" onclick="downloadExport()">Download text</button></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Shareable quiz link</div><input id="shareLink" readonly><div class="actions"><button class="btn primary" onclick="copyShareLink(event)">Copy invite link</button></div></div></div></section>
@@ -100,7 +100,7 @@ async function loadCriticSources(){
   }
 }
 const STORAGE='taylor-ranker-v4';
-function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',savedAt:null}}
+function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',pendingPlacementIds:[],savedAt:null}}
 function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[]})}catch(e){return null}}
 let state=loadState()||blankState();
 for(const id of Object.keys(state.ratings||{})){const n=Number(state.ratings[id]);if(Number.isFinite(n))state.ratings[id]=Math.max(1,Math.min(10,Math.round(n)));else delete state.ratings[id]}
@@ -134,7 +134,7 @@ function renderMissingScores(scroll=true){
     const u=!!state.unknown[s.id];
     h+=`<div class="song-row"><div><div class="song-name">${esc(s.title)}</div><div class="song-context">${esc(s.album)}${s.context?' · '+esc(s.context):''}</div></div><div class="rate-wrap"><div class="rate-scroll">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="rate" onclick="setMissingRating('${s.id}',${n})">${n}</button>`).join('')}</div><button class="unknown-btn ${u?'selected':''}" title="I still don't know it" onclick="setMissingUnknown('${s.id}')">?</button></div></div>`
   }
-  document.getElementById('missingSongList').innerHTML=h||'<div class="notice">You’re all caught up. Every song has a score.</div>';
+  document.getElementById('missingSongList').innerHTML=h||'<div class="notice">You’re all caught up. Every song has a score.</div>';const offer=document.getElementById('missingPlacementOffer');if(offer){offer.classList.add('hidden');offer.innerHTML=''};
   if(scroll)window.scrollTo({top:0,behavior:'instant'});
   saveState()
 }
@@ -142,8 +142,10 @@ function setMissingRating(id,v){
   state.ratings[id]=v;
   delete state.unknown[id];
   delete state.refineDelta[id];
+  state.pendingPlacementIds=state.pendingPlacementIds||[];
+  if(!state.pendingPlacementIds.includes(id))state.pendingPlacementIds.push(id);
   saveState();
-  startPlacement(id,'missing');
+  renderMissingScores(false);
 }
 function setMissingUnknown(id){
   state.unknown[id]=true;
@@ -153,7 +155,38 @@ function setMissingUnknown(id){
   saveState();
   renderMissingScores(false)
 }
-function finishMissingScores(){if(state.finalOrder.length)openResultsDirect('songs');else section('summary')}
+function hasRefinedRanking(){return !!(state.finalOrder&&state.finalOrder.length&&Object.keys(state.refineSeen||{}).some(k=>k.includes('|')))}
+function finishMissingScores(){
+  const pending=(state.pendingPlacementIds||[]).filter(id=>Number.isFinite(state.ratings[id])&&!state.unknown[id]);
+  if(hasRefinedRanking()&&pending.length){
+    const offer=document.getElementById('missingPlacementOffer');
+    offer.classList.remove('hidden');
+    offer.innerHTML=`You added ${pending.length} song${pending.length===1?'':'s'} to an already-refined ranking.<div class="actions" style="margin-top:10px"><button class="btn primary" onclick="placePendingSongs()">Place ${pending.length===1?'it':'them'} now</button><button class="btn" onclick="skipPendingPlacement()">Do it later</button></div>`;
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+    return;
+  }
+  state.pendingPlacementIds=[];
+  saveState();
+  section('summary');renderSummary();
+}
+function placePendingSongs(){
+  const ids=(state.pendingPlacementIds||[]).filter(id=>Number.isFinite(state.ratings[id])&&!state.unknown[id]);
+  if(!ids.length){state.pendingPlacementIds=[];saveState();return openResultsDirect('songs')}
+  state.pendingPlacementIds=ids;
+  startPlacementQueue();
+}
+function startPlacementQueue(){
+  const ids=(state.pendingPlacementIds||[]).filter(id=>Number.isFinite(state.ratings[id])&&!state.unknown[id]);
+  if(!ids.length){state.pendingPlacementIds=[];saveState();return openResultsDirect('songs')}
+  const id=ids.shift();
+  state.pendingPlacementIds=ids;
+  saveState();
+  startPlacement(id,'queue');
+}
+function skipPendingPlacement(){
+  saveState();
+  section('summary');renderSummary();
+}
 function mandatoryTierSongs(){
   const eligible=rankedEligible();
   for(let score=10;score>=1;score--){
@@ -267,7 +300,7 @@ function finishPlacement(){
   const ret=state.placementReturn||'missing';
   state.placementMode=false;state.placementSong=null;state.placementOrder=[];state.placementLow=0;state.placementHigh=0;
   saveState();
-  if(ret==='results'){section('results');renderResults()}else{section('missing');renderMissingScores()}
+  if(ret==='results'){section('results');renderResults()}else if(ret==='queue'){startPlacementQueue()}else{section('missing');renderMissingScores()}
 }
 function applyPlacementChoice(side){
   const comparison=state.pair[1];
@@ -528,7 +561,7 @@ async function importCompletedSpreadsheet(ev){
       }
     }
     if(!imported&&!unknown){throw new Error('No song ratings found in the Album Ranking Calculator tab.')}
-    state.finalOrder=[]; state.refineDelta={}; state.refineSeen={}; state.refineSkipped={}; state.pair=null; state.refineHistory=[];
+    state.finalOrder=[]; state.refineDelta={}; state.refineSeen={}; state.refineSkipped={}; state.pair=null; state.refineHistory=[]; state.pendingPlacementIds=[];
     saveState();
     const remaining=SONGS.filter(s=>state.ratings[s.id]==null&&!state.unknown[s.id]).length;
     status.textContent=`Imported ${imported} scores${unknown?` · ${unknown} blank songs marked “don’t know”`:''}${remaining?` · ${remaining} newer songs to score`:''}.`;
