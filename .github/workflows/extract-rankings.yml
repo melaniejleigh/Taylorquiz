@@ -30,35 +30,36 @@ jobs:
           wb=openpyxl.load_workbook(path,data_only=True)
 
           out={"sheets":{}, "sources":{}}
+          ws=wb["Raw Data"]
+          rows=list(ws.iter_rows(values_only=True))
+          out["sheets"][ws.title]={"rows":len(rows),"cols":ws.max_column,"sample":[list(r[:20]) for r in rows[:8]]}
+          headers=[str(v).strip() if v is not None else "" for v in rows[3]]
           targets=["Rolling Stone","Vulture","Variety","Ranker"]
-          for ws in wb.worksheets:
-              rows=list(ws.iter_rows(values_only=True))
-              out["sheets"][ws.title]={"rows":len(rows),"cols":ws.max_column,"sample":[list(r[:20]) for r in rows[:8]]}
-              # Find any row containing target source names and treat that as a header row.
-              for ri,row in enumerate(rows):
-                  vals=[str(v).strip() if v is not None else "" for v in row]
-                  hits={}
-                  for target in targets:
-                      for ci,v in enumerate(vals):
-                          if target.lower() in v.lower():
-                              hits[target]=ci
-                  if hits:
-                      # Guess song/title column by nearby header names, otherwise first col.
-                      song_ci=0
-                      for ci,v in enumerate(vals):
-                          if re.search(r"song|track|title",v,re.I):
-                              song_ci=ci; break
-                      for target,ci in hits.items():
-                          items=[]
-                          for rr in rows[ri+1:]:
-                              title=rr[song_ci] if song_ci < len(rr) else None
-                              rank=rr[ci] if ci < len(rr) else None
-                              if title is None: continue
-                              if isinstance(rank,(int,float)) or (isinstance(rank,str) and rank.strip().isdigit()):
-                                  items.append({"title":str(title).strip(),"rank":int(float(rank))})
-                          if items:
-                              prev=out["sources"].get(target,[])
-                              if len(items)>len(prev): out["sources"][target]=items
+          for target in targets:
+              try: ci=headers.index(target)
+              except ValueError: continue
+              items=[]
+              for rr in rows[4:]:
+                  rank=rr[0] if len(rr)>0 else None
+                  title=rr[ci] if ci < len(rr) else None
+                  if isinstance(rank,(int,float)) and title:
+                      items.append({"title":str(title).strip(),"rank":int(rank)})
+              out["sources"][target]=items
+
+          # Historical TS Ranked fan aggregate (2019-era site), if its old API is still reachable.
+          try:
+              api=json.load(urllib.request.urlopen("https://ts-ranked-server.jrobsonjr.now.sh/api/scores",timeout=20))
+              js=urllib.request.urlopen("https://raw.githubusercontent.com/JRobsonJr/ts-ranked/master/src/api/albums.js",timeout=20).read().decode()
+              pairs=re.findall(r"name:\s*['\"]([^'\"]+)['\"][^}]*spotifyId:\s*['\"]([^'\"]+)['\"]",js,re.S)
+              id_to_title={sid:name for name,sid in pairs}
+              scores=api.get("data",api if isinstance(api,list) else [])
+              ranked=sorted(scores,key=lambda x:x.get("score",0),reverse=True)
+              out["sources"]["TS Ranked"]=[
+                  {"title":id_to_title.get(x.get("trackId"),x.get("trackId")),"rank":i+1,"score":x.get("score")}
+                  for i,x in enumerate(ranked) if id_to_title.get(x.get("trackId"))
+              ]
+          except Exception as e:
+              out["ts_ranked_error"]=str(e)
           Path("critic-ranking-extract.json").write_text(json.dumps(out,indent=2,ensure_ascii=False,default=str))
           PY
       - name: Commit extracted data
