@@ -5,7 +5,7 @@
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,textarea,input{font:inherit}button{touch-action:manipulation}.app{max-width:980px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.brand{font-weight:850;font-size:20px}.top-actions{display:flex;gap:6px;align-items:center}.navbtn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:8px 10px;border-radius:10px;font-weight:750;cursor:pointer;white-space:nowrap}.iconbtn{width:38px;height:38px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:18px}.pill{font-size:12px;color:var(--muted);border:1px solid var(--border);padding:6px 9px;border-radius:999px}.panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px}.hidden{display:none!important}h1{font-size:30px;line-height:1.05;margin:0 0 10px;letter-spacing:-.04em}h2{margin:0 0 8px}p{color:var(--muted);line-height:1.45}.notice{border:1px solid var(--border);background:#12141a;padding:12px;border-radius:12px;color:var(--muted);font-size:13px}.actions,.footer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:12px 14px;border-radius:12px;cursor:pointer;font-weight:750}.btn.primary{background:var(--text);color:#111;border-color:transparent}.btn.soft{background:transparent}.btn.danger{border-style:dashed;color:var(--muted)}.btn.wide{width:100%}.progress-wrap{margin:12px 0 18px}.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}.progress{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}.progress>div{height:100%;background:var(--accent)}
 .album-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-bottom:8px}.album-count{font-size:12px;color:var(--muted)}.song-list{display:grid;gap:7px;margin-top:12px}.song-row{display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}.song-name{font-weight:720;line-height:1.15}.song-context{font-size:12px;color:var(--accent2);margin-top:4px}.rate-wrap{display:flex;align-items:center;gap:4px}.rate-scroll{display:flex;gap:3px}.rate{width:34px;height:34px;padding:0;border-radius:9px;border:1px solid var(--border);background:#111319;color:var(--muted);font-weight:760;cursor:pointer}.rate.selected{background:var(--text);color:#111;border-color:var(--text)}.unknown-btn{width:38px;height:34px;padding:0;border-radius:9px;border:1px dashed var(--border);background:transparent;color:var(--muted);cursor:pointer}.unknown-btn.selected{background:var(--accent2);color:#151515;border-style:solid}.album-nav{display:flex;justify-content:space-between;gap:8px;margin-top:16px;position:sticky;bottom:8px;padding-top:10px;background:linear-gradient(transparent,var(--panel) 25%)}.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-top:14px}.summary-card{border:1px solid var(--border);background:var(--panel2);border-radius:13px;padding:12px;position:relative;overflow:hidden}.summary-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--era,var(--border))}.summary-card.era-card{background:linear-gradient(135deg,color-mix(in srgb,var(--era) 20%,var(--panel2)),var(--panel2) 55%)}.song-era-dot{display:inline-block;width:9px;height:9px;border-radius:99px;background:var(--era,var(--border));margin-right:8px}.result-row{--era:var(--border)}.adjust-btn{border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:8px;padding:5px 8px;cursor:pointer;font-size:12px}.rank-adjust{border:1px solid var(--border);background:#12141a;border-radius:14px;padding:12px;margin:10px 0}.rank-adjust-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.rank-adjust-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.rank-adjust .rate-scroll{overflow-x:auto;padding-bottom:4px}.summary-card .score{font-size:26px;font-weight:850;margin-top:6px}.summary-card .small{font-size:12px;color:var(--muted);margin-top:3px}
 .swipe-zone{position:relative;min-height:380px;margin-top:18px;touch-action:none;user-select:none}.pair{display:grid;grid-template-columns:1fr 54px 1fr;gap:10px;align-items:stretch;transition:transform .15s ease,opacity .15s ease}.choice{border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:18px;padding:28px 14px;text-align:center;min-height:240px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;width:100%}.choice .t{font-size:27px;font-weight:850;line-height:1.08}.choice .a{font-size:13px;color:var(--muted);margin-top:9px}.choice .c{font-size:12px;color:var(--accent2);margin-top:7px;line-height:1.35}.choice .r{font-size:12px;color:var(--good);margin-top:10px;font-weight:800}.vs{display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:800}.swipe-hint{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}.refine-buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}.refine-buttons .btn{min-height:52px}.refine-icon{font-size:22px;padding:0}.not-sure{color:var(--accent2)}.unknown-picker{margin-top:10px;border:1px dashed var(--border);border-radius:12px;padding:10px}.unknown-picker .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;margin-top:14px}table{border-collapse:collapse;width:100%;min-width:590px}th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}th{font-size:12px;color:var(--muted);background:#14161c;position:sticky;top:0}td.rank{width:54px;color:var(--muted)}td.albumcell{color:var(--muted);font-size:13px}.tabs{display:flex;gap:6px;overflow:auto;margin:12px 0}.tab.active{background:var(--text);color:#111}.vertical-head{height:110px;width:56px;padding:0;vertical-align:bottom}.vertical-head span{display:inline-block;transform:rotate(-65deg);transform-origin:bottom left;white-space:nowrap;margin-left:28px;margin-bottom:6px;font-size:11px}textarea{width:100%;min-height:120px;background:#111319;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px}input{width:100%;background:#111319;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:11px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.small{font-size:12px;color:var(--muted)}.score-chip{display:inline-flex;align-items:center;justify-content:center;min-width:29px;height:27px;border-radius:8px;background:var(--panel2);font-weight:800}details{margin-top:14px}
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;margin-top:14px}table{border-collapse:collapse;width:100%;min-width:590px}th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}th{font-size:12px;color:var(--muted);background:#14161c;position:sticky;top:0}td.rank{width:54px;color:var(--muted)}td.albumcell{color:var(--muted);font-size:13px}.tabs{display:flex;gap:6px;overflow:auto;margin:12px 0}.tab.active{background:var(--text);color:#111}.vertical-head{height:110px;width:56px;padding:0;vertical-align:bottom}.vertical-head span{display:inline-block;transform:rotate(-65deg);transform-origin:bottom left;white-space:nowrap;margin-left:28px;margin-bottom:6px;font-size:11px}.compare-table th:first-child,.compare-table td:first-child{position:sticky;left:0;z-index:4;background:#14161c;min-width:48px}.compare-table th:nth-child(2),.compare-table td:nth-child(2){position:sticky;left:48px;z-index:3;background:var(--panel);min-width:190px;box-shadow:8px 0 12px rgba(0,0,0,.18)}.compare-table tbody tr:nth-child(even) td:nth-child(2){background:#191b22}textarea{width:100%;min-height:120px;background:#111319;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px}input{width:100%;background:#111319;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:11px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.small{font-size:12px;color:var(--muted)}.score-chip{display:inline-flex;align-items:center;justify-content:center;min-width:29px;height:27px;border-radius:8px;background:var(--panel2);font-weight:800}details{margin-top:14px}
 @media(max-width:760px){
 .app{padding:8px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
@@ -36,7 +36,7 @@ h1{font-size:24px}h2{font-size:22px}
 .footer-actions .btn{flex:1;font-size:12px;padding:10px}
 #refine>p{font-size:12px;margin-bottom:6px}#refine{padding-bottom:72px}
 .footer-actions{justify-content:center}
-.rank-adjust-controls{grid-template-columns:1fr}.adjust-btn{font-size:11px;padding:5px 7px}.grid2{grid-template-columns:1fr}
+.rank-adjust-controls{grid-template-columns:1fr}.adjust-btn{font-size:11px;padding:5px 7px}.compare-table th:nth-child(2),.compare-table td:nth-child(2){min-width:150px;max-width:150px;white-space:normal}.grid2{grid-template-columns:1fr}
 }
 </style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script></head><body><div class="app"><div class="top"><div class="brand">Taylor Ranker</div><div class="top-actions"><button id="globalBack" class="navbtn iconbtn" aria-label="Back" title="Back" onclick="appBack()">←</button><button id="globalUndo" class="navbtn iconbtn" aria-label="Undo last choice" title="Undo last choice" onclick="undoRefine()">↶</button><button id="globalHome" class="navbtn iconbtn" aria-label="Home" title="Home" onclick="goHome()">⌂</button></div><div class="pill" id="saveStatus">saved locally</div></div>
 <section id="start" class="panel"><h1>Quick scores first. Ranking drama second.</h1><p>Rate the songs album by album from 1–10. Do it fast and do not overthink the scale. Those scores give you album averages immediately, then you can swipe through close calls to turn the rough scores into your actual song order.</p><div class="notice"><b id="songTotal"></b> songs. Taylor’s Version duplicates are collapsed. Non-album songs are limited to tracks Taylor has a writing credit on, with context shown beside the title.</div><div class="actions"><button class="btn primary" onclick="beginRatings()">Start quick scoring</button><button class="btn" onclick="resumeRatings()">Resume</button><button class="btn soft" onclick="showSummaryIfAny()">See my scores</button><button class="btn soft" onclick="openResults('compare')">Compare</button><button class="btn soft" onclick="showImportRestore()">Import ranking</button></div><div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Already filled out the original Google Sheet?</div><button class="btn wide" onclick="document.getElementById('sheetImportFile').click()">Import completed spreadsheet</button><input id="sheetImportFile" type="file" accept=".xlsx,.xls" class="hidden" onchange="importCompletedSpreadsheet(event)"><div id="sheetImportStatus" class="small" style="margin-top:8px"></div></div></section>
@@ -100,10 +100,18 @@ async function loadCriticSources(){
   }
 }
 const STORAGE='taylor-ranker-v4';
-function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',pendingPlacementIds:[],savedAt:null}}
-function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[]})}catch(e){return null}}
+function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',pendingPlacementIds:[],tierOrders:{},tierSorted:{},activeTierScore:null,savedAt:null}}
+function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[],tierOrders:s.tierOrders||{},tierSorted:s.tierSorted||{}})}catch(e){return null}}
 let state=loadState()||blankState();
 for(const id of Object.keys(state.ratings||{})){const n=Number(state.ratings[id]);if(Number.isFinite(n))state.ratings[id]=Math.max(1,Math.min(10,Math.round(n)));else delete state.ratings[id]}
+if(!state.tierOrders||typeof state.tierOrders!=='object')state.tierOrders={};
+if(!state.tierSorted||typeof state.tierSorted!=='object')state.tierSorted={};
+for(let score=1;score<=10;score++){
+  if(!state.tierOrders[score]||!state.tierOrders[score].length){
+    const set=new Set(SONGS.filter(s=>scoreOf(s.id)===score&&!state.unknown[s.id]).map(s=>s.id));
+    state.tierOrders[score]=(state.finalOrder||[]).filter(id=>set.has(id));
+  }
+}
 function saveState(){const x=document.getElementById('saveStatus');try{state.savedAt=Date.now();const payload=JSON.stringify(state);localStorage.setItem(STORAGE,payload);const check=localStorage.getItem(STORAGE);if(check!==payload)throw new Error('save verification failed');if(x)x.textContent=state.finalOrder&&state.finalOrder.length?'ranking saved':'saved locally'}catch(e){if(x)x.textContent='save failed';console.error('Could not save Taylor Ranker state',e)}}
 window.addEventListener('pagehide',saveState);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveState()});
@@ -117,8 +125,8 @@ function ratedCount(){return SONGS.filter(s=>state.ratings[s.id]!=null||state.un
 function albumAvg(album){const vals=albumSongs(album).map(s=>state.ratings[s.id]).filter(v=>Number.isFinite(v));return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null}
 function beginRatings(){state.albumIndex=0;section('ratings');renderAlbum()}
 function resumeRatings(){section('ratings');renderAlbum()}
-function setRating(id,v){state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];state.finalOrder=[];saveState();renderAlbum(false)}
-function toggleUnknown(id){if(state.unknown[id])delete state.unknown[id];else{state.unknown[id]=true;delete state.ratings[id];delete state.refineDelta[id]}state.finalOrder=[];saveState();renderAlbum(false)}
+function setRating(id,v){const old=scoreOf(id);state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];if(old)state.tierSorted[old]=false;state.tierSorted[v]=false;composeTierRanking();saveState();renderAlbum(false)}
+function toggleUnknown(id){const old=scoreOf(id);if(state.unknown[id])delete state.unknown[id];else{state.unknown[id]=true;delete state.ratings[id];delete state.refineDelta[id]}if(old)state.tierSorted[old]=false;composeTierRanking();saveState();renderAlbum(false)}
 function renderAlbum(scroll=true){const album=ALBUMS[state.albumIndex]||ALBUMS[0],songs=albumSongs(album);document.getElementById('albumTitle').textContent=album;document.getElementById('albumCount').textContent=`${songs.length} songs · album ${state.albumIndex+1} of ${ALBUMS.length}`;const avg=albumAvg(album);document.getElementById('albumAverage').textContent=avg==null?'— avg':avg.toFixed(2)+' avg';document.getElementById('ratingProgress').textContent=`${ratedCount()} of ${SONGS.length} scored`;document.getElementById('ratingBar').style.width=`${ratedCount()/SONGS.length*100}%`;let h='';for(const s of songs){const r=state.ratings[s.id],u=!!state.unknown[s.id];h+=`<div class="song-row"><div><div class="song-name">${esc(s.title)}</div>${s.context?`<div class="song-context">${esc(s.context)}</div>`:''}</div><div class="rate-wrap"><div class="rate-scroll">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="rate ${r===n?'selected':''}" onclick="setRating('${s.id}',${n})">${n}</button>`).join('')}</div><button class="unknown-btn ${u?'selected':''}" title="I don't know it" onclick="toggleUnknown('${s.id}')">?</button></div></div>`}document.getElementById('songList').innerHTML=h;document.getElementById('nextAlbumBtn').textContent=state.albumIndex===ALBUMS.length-1?'Finish quick scores →':'Next album →';if(scroll)window.scrollTo({top:0,behavior:'instant'});updateGlobalNav()}
 function nextAlbum(){if(state.albumIndex<ALBUMS.length-1){state.albumIndex++;saveState();renderAlbum()}else{beginMandatoryRefine()}}
 function prevAlbum(){if(state.albumIndex>0){state.albumIndex--;saveState();renderAlbum()}else goHome()}
@@ -142,7 +150,7 @@ function setMissingRating(id,v){
   state.ratings[id]=v;
   delete state.unknown[id];
   delete state.refineDelta[id];
-  state.pendingPlacementIds=state.pendingPlacementIds||[];
+  state.tierSorted[v]=false;state.pendingPlacementIds=state.pendingPlacementIds||[];
   if(!state.pendingPlacementIds.includes(id))state.pendingPlacementIds.push(id);
   saveState();
   renderMissingScores(false);
@@ -158,7 +166,7 @@ function setMissingUnknown(id){
 function hasRefinedRanking(){return !!(state.finalOrder&&state.finalOrder.length&&Object.keys(state.refineSeen||{}).some(k=>k.includes('|')))}
 function finishMissingScores(){
   const pending=(state.pendingPlacementIds||[]).filter(id=>Number.isFinite(state.ratings[id])&&!state.unknown[id]);
-  if(hasRefinedRanking()&&pending.length){
+  if(hasRefinedRanking()&&pending.some(id=>state.tierSorted?.[scoreOf(id)])){
     const offer=document.getElementById('missingPlacementOffer');
     offer.classList.remove('hidden');
     offer.innerHTML=`You added ${pending.length} song${pending.length===1?'':'s'} to an already-refined ranking.<div class="actions" style="margin-top:10px"><button class="btn primary" onclick="placePendingSongs()">Place ${pending.length===1?'it':'them'} now</button><button class="btn" onclick="skipPendingPlacement()">Do it later</button></div>`;
@@ -235,43 +243,65 @@ function nextMandatoryPair(){
 }
 function finishMandatoryIfReady(){
   if(state.mandatoryRefine&&mandatoryRefineDone()){
+    const score=state.mandatoryScore;
+    state.tierOrders[score]=[...state.mandatoryOrder];
+    state.tierSorted[score]=true;
+    state.activeTierScore=null;
     state.mandatoryRefine=false;
-    const tierSet=new Set(state.mandatoryOrder);
-    const rest=currentOrder().filter(id=>!tierSet.has(id));
-    state.finalOrder=[...state.mandatoryOrder,...rest];
+    composeTierRanking();
     const tab=state.pendingResultsTab||'songs';
     state.pendingResultsTab=null;
+    saveState();
     openResultsDirect(tab);
     return true;
   }
   return false;
 }
 function ensureMandatoryBeforeResults(tab='songs'){
-  if(!mandatoryTierSongs().length)return openResultsDirect(tab);
-  if(state.finalOrder.length&&state.mandatoryOrder.length&&mandatoryRefineDone())return openResultsDirect(tab);
+  const topScore=highestUnsortedTier();
+  if(topScore==null)return openResultsDirect(tab);
   state.pendingResultsTab=tab;
-  beginMandatoryRefine();
+  setupTierSort(topScore);
+  saveState();section('refine');nextRefinePair();
 }
 function rankedEligible(){return SONGS.filter(s=>Number.isFinite(state.ratings[s.id])&&!state.unknown[s.id])}
-function rankValue(id){return (state.ratings[id]||0)*100+(state.refineDelta[id]||0)}
 function pairKey(a,b){return [a,b].sort().join('|')}
-function tierExposure(song){return state.refineSeen[song.id]||0}
-function chooseRefineTier(pool){
-  const top=pool.filter(s=>state.ratings[s.id]>=8),bottom=pool.filter(s=>state.ratings[s.id]<=4),middle=pool.filter(s=>state.ratings[s.id]>=5&&state.ratings[s.id]<=7);
-  if(top.length>1&&top.some(s=>tierExposure(s)<2))return top;
-  if(bottom.length>1&&bottom.some(s=>tierExposure(s)<1))return bottom;
-  if(top.length>1&&top.some(s=>tierExposure(s)<4))return top;
-  if(bottom.length>1&&bottom.some(s=>tierExposure(s)<3))return bottom;
-  if(middle.length>1)return middle;
-  return pool;
+function scoreOf(id){return Math.round(Number(state.ratings[id])||0)}
+function tierSongs(score){return rankedEligible().filter(s=>scoreOf(s.id)===Number(score))}
+function tierExistingOrder(score){
+  const ids=tierSongs(score).map(s=>s.id),set=new Set(ids);
+  const saved=(state.tierOrders?.[score]||[]).filter(id=>set.has(id));
+  const seen=new Set(saved);
+  const prev=(state.finalOrder||[]).filter(id=>set.has(id)&&!seen.has(id));
+  prev.forEach(id=>seen.add(id));
+  const rest=ids.filter(id=>!seen.has(id));
+  return [...saved,...prev,...rest];
+}
+function highestUnsortedTier(){
+  for(let score=10;score>=1;score--){
+    if(tierSongs(score).length>=2&&!state.tierSorted?.[score])return score;
+  }
+  return null;
+}
+function composeTierRanking(){
+  const out=[];
+  for(let score=10;score>=1;score--){
+    const ids=tierExistingOrder(score);
+    out.push(...ids);
+  }
+  state.finalOrder=out;
+  return out;
 }
 function startPlacement(id,returnPhase='missing'){
   const song=SONG_BY_ID[id];if(!song||!Number.isFinite(state.ratings[id]))return;
-  ensureFinalOrder();
-  const base=(state.finalOrder||[]).filter(x=>x!==id&&SONG_BY_ID[x]&&!state.unknown[x]);
-  if(!base.length){
-    state.finalOrder=[id];saveState();
-    if(returnPhase==='results'){section('results');renderResults()}else{section('missing');renderMissingScores()}
+  const score=scoreOf(id);
+  composeTierRanking();
+  const base=tierExistingOrder(score).filter(x=>x!==id&&!state.unknown[x]);
+  if(!state.tierSorted?.[score]||!base.length){
+    state.tierOrders[score]=[...base,id];
+    state.tierSorted[score]=false;
+    composeTierRanking();saveState();
+    if(returnPhase==='results'){section('results');renderResults()}else if(returnPhase==='queue'){startPlacementQueue()}else{section('missing');renderMissingScores()}
     return;
   }
   state.placementMode=true;
@@ -292,11 +322,13 @@ function nextPlacementPair(){
   return [state.placementSong,state.placementOrder[mid]];
 }
 function finishPlacement(){
-  const id=state.placementSong;
+  const id=state.placementSong,score=scoreOf(id);
   const order=[...state.placementOrder];
   const idx=Math.max(0,Math.min(order.length,state.placementLow));
   order.splice(idx,0,id);
-  state.finalOrder=order;
+  state.tierOrders[score]=order;
+  state.tierSorted[score]=true;
+  composeTierRanking();
   const ret=state.placementReturn||'missing';
   state.placementMode=false;state.placementSong=null;state.placementOrder=[];state.placementLow=0;state.placementHigh=0;
   saveState();
@@ -309,17 +341,35 @@ function applyPlacementChoice(side){
   else if(side==='right')state.placementLow=mid+1;
   else{state.placementLow=mid;state.placementHigh=mid}
 }
+function setupTierSort(score){
+  const ids=tierExistingOrder(score);
+  if(ids.length<2)return false;
+  state.activeTierScore=Number(score);
+  state.mandatoryRefine=true;
+  state.mandatoryScore=Number(score);
+  state.mandatoryOrder=[ids[0]];
+  state.mandatoryQueue=ids.slice(1);
+  state.mandatoryCandidate=null;
+  state.mandatoryLow=0;
+  state.mandatoryHigh=0;
+  state.pair=null;
+  state.refineHistory=[];
+  return true;
+}
 function choosePair(){
-  const all=rankedEligible();if(all.length<2)return null;
   if(state.placementMode)return nextPlacementPair();
   if(state.mandatoryRefine)return nextMandatoryPair();
-  const pool=chooseRefineTier(all);let best=null,bestCost=1e9;
-  for(let i=0;i<900;i++){const a=pool[Math.floor(Math.random()*pool.length)],b=pool[Math.floor(Math.random()*pool.length)];if(a.id===b.id)continue;const diff=Math.abs((state.ratings[a.id]||0)-(state.ratings[b.id]||0));if(diff>1)continue;const key=pairKey(a.id,b.id),samePair=state.refineSeen[key]||0,exposure=tierExposure(a)+tierExposure(b);const deltaGap=Math.abs(rankValue(a.id)-rankValue(b.id));const sameScoreBonus=diff===0?-50:0;const cost=deltaGap+samePair*180+exposure*14+sameScoreBonus+Math.random()*25;if(cost<bestCost){bestCost=cost;best=[a.id,b.id]}}
-  if(best)return best;const sorted=[...pool].sort((a,b)=>rankValue(b.id)-rankValue(a.id));for(let i=0;i<sorted.length-1;i++)if(Math.abs((state.ratings[sorted[i].id]||0)-(state.ratings[sorted[i+1].id]||0))<=1)return[sorted[i].id,sorted[i+1].id];return pool.length>1?[pool[0].id,pool[1].id]:null
+  return null;
 }
-function startRefine(){if(rankedEligible().length<2)return alert('Score at least two songs first.');ensureFinalOrder();state.mandatoryRefine=false;state.refineDone=0;state.pair=null;state.refineHistory=[];saveState();section('refine');nextRefinePair()}
-function refineMore(){ensureFinalOrder();state.pair=null;state.refineHistory=[];saveState();section('refine');nextRefinePair()}
-function nextRefinePair(){state.pair=choosePair();if(!state.pair){if(state.placementMode)return finishPlacement();return finishRefine()}renderRefinePair();saveState()}
+function startRefine(){
+  if(rankedEligible().length<2)return alert('Score at least two songs first.');
+  const score=highestUnsortedTier();
+  if(score==null)return openResultsDirect('songs');
+  setupTierSort(score);
+  saveState();section('refine');nextRefinePair();
+}
+function refineMore(){startRefine()}
+function nextRefinePair(){state.pair=choosePair();if(!state.pair){if(state.placementMode)return finishPlacement();if(state.mandatoryRefine)return finishMandatoryIfReady();return openResultsDirect('songs')}renderRefinePair();saveState()}
 function cardHTML(s){return `<div class="t">${esc(s.title)}</div><div class="a">${esc(s.album==='Non-album songs'?'Non-album song':s.album)}</div>${s.context?`<div class="c">${esc(s.context)}</div>`:''}`}
 function refineProgressText(){
   if(state.placementMode){
@@ -330,7 +380,7 @@ function refineProgressText(){
   if(state.mandatoryRefine){
     const total=(state.mandatoryOrder?.length||0)+(state.mandatoryQueue?.length||0)+(state.mandatoryCandidate?1:0);
     const placed=state.mandatoryOrder?.length||0;
-    return `Sorting your favorites · ${placed} of ${Math.max(total,placed)} placed`;
+    return `Sorting your ${state.mandatoryScore}s · ${placed} of ${Math.max(total,placed)} placed`;
   }
   const pairKeys=Object.keys(state.refineSeen||{}).filter(k=>k.includes('|'));
   const decisions=pairKeys.reduce((sum,k)=>sum+(state.refineSeen[k]||0),0);
@@ -338,7 +388,7 @@ function refineProgressText(){
   pairKeys.forEach(k=>{const [a,b]=k.split('|');if(a)touched.add(a);if(b)touched.add(b)});
   return `${decisions} decision${decisions===1?'':'s'} made · ${touched.size} song${touched.size===1?'':'s'} refined · stop anytime`;
 }
-function renderRefinePair(){const[a,b]=state.pair.map(id=>SONG_BY_ID[id]);const h2=document.querySelector('#refine h2'),intro=document.querySelector('#refine>p'),label=document.getElementById('refineStatus');if(state.placementMode){if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Where does it belong?';if(intro)intro.textContent='A few quick swipes will drop this song into your saved ranking.'}else if(state.mandatoryRefine){if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Sort your favorites';if(intro)intro.textContent=`These are all in your top ${state.mandatoryScore} bucket. We’ll sort them into a real order with a few quick head-to-heads.`}else{if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Which do you prefer?';if(intro)intro.textContent='Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.'};document.getElementById('leftChoice').innerHTML=cardHTML(a);document.getElementById('rightChoice').innerHTML=cardHTML(b);document.getElementById('leftBtn').textContent='←';document.getElementById('rightBtn').textContent='→';document.getElementById('unknownLeft').textContent=a.title;document.getElementById('unknownRight').textContent=b.title;document.getElementById('unknownPicker').classList.add('hidden');const foot=document.querySelector('#refine .footer-actions');if(foot)foot.style.display=state.mandatoryRefine?'none':''}
+function renderRefinePair(){const[a,b]=state.pair.map(id=>SONG_BY_ID[id]);const h2=document.querySelector('#refine h2'),intro=document.querySelector('#refine>p'),label=document.getElementById('refineStatus');if(state.placementMode){if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Where does it belong?';if(intro)intro.textContent='A few quick swipes will drop this song into your saved ranking.'}else if(state.mandatoryRefine){if(label)label.textContent=refineProgressText();if(h2)h2.textContent=`Sort your ${state.mandatoryScore}s`;if(intro)intro.textContent=`These all have a quick score of ${state.mandatoryScore}. We’ll put this tier into a real order before moving lower.`}else{if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Which do you prefer?';if(intro)intro.textContent='Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.'};document.getElementById('leftChoice').innerHTML=cardHTML(a);document.getElementById('rightChoice').innerHTML=cardHTML(b);document.getElementById('leftBtn').textContent='←';document.getElementById('rightBtn').textContent='→';document.getElementById('unknownLeft').textContent=a.title;document.getElementById('unknownRight').textContent=b.title;document.getElementById('unknownPicker').classList.add('hidden');const foot=document.querySelector('#refine .footer-actions');if(foot)foot.style.display=state.mandatoryRefine?'none':''}
 function pushRefineHistory(){const pair=state.pair?[...state.pair]:null;if(!pair)return;const[aid,bid]=pair,key=pairKey(aid,bid);state.refineHistory.push({pair,refineDone:state.refineDone,deltaA:state.refineDelta[aid],deltaB:state.refineDelta[bid],skip:state.refineSkipped[key],seenPair:state.refineSeen[key],seenA:state.refineSeen[aid],seenB:state.refineSeen[bid],ratingA:state.ratings[aid],ratingB:state.ratings[bid],unknownA:!!state.unknown[aid],unknownB:!!state.unknown[bid]});if(state.refineHistory.length>100)state.refineHistory.shift()}
 function setMaybe(obj,key,val){if(typeof val==='undefined')delete obj[key];else obj[key]=val}
 function undoRefine(){if(state.phase!=='refine')return;const h=state.refineHistory.pop();if(!h)return;const[aid,bid]=h.pair,key=pairKey(aid,bid);setMaybe(state.refineDelta,aid,h.deltaA);setMaybe(state.refineDelta,bid,h.deltaB);setMaybe(state.refineSkipped,key,h.skip);setMaybe(state.refineSeen,key,h.seenPair);setMaybe(state.refineSeen,aid,h.seenA);setMaybe(state.refineSeen,bid,h.seenB);setMaybe(state.ratings,aid,h.ratingA);setMaybe(state.ratings,bid,h.ratingB);if(h.unknownA)state.unknown[aid]=true;else delete state.unknown[aid];if(h.unknownB)state.unknown[bid]=true;else delete state.unknown[bid];state.refineDone=h.refineDone;state.pair=[...h.pair];saveState();renderRefinePair();updateGlobalNav()}
@@ -367,36 +417,17 @@ function chooseRefine(side){pushRefineHistory();const[aid,bid]=state.pair;if(sta
 if(state.mandatoryRefine){
   applyMandatoryChoice(side);
   state.refineDone++;
+  const key=pairKey(aid,bid);state.refineSeen[key]=(state.refineSeen[key]||0)+1;state.refineSeen[aid]=(state.refineSeen[aid]||0)+1;state.refineSeen[bid]=(state.refineSeen[bid]||0)+1;
   saveState();updateGlobalNav();const rs=document.getElementById('refineStatus');if(rs)rs.textContent=refineProgressText();animatePair(side);
-  if(mandatoryRefineDone()){setTimeout(()=>finishMandatoryIfReady(),160)}else setTimeout(nextRefinePair,150);
+  if(mandatoryRefineDone())setTimeout(()=>finishMandatoryIfReady(),160);else setTimeout(nextRefinePair,150);
   return;
-}
-if(side==='unsure'){state.refineSkipped[pairKey(aid,bid)]=(state.refineSkipped[pairKey(aid,bid)]||0)+1}else{const win=side==='left'?aid:bid,lose=side==='left'?bid:aid;const wr=state.ratings[win],lr=state.ratings[lose];const cross=wr===lr?18:wr<lr?34:12;state.refineDelta[win]=(state.refineDelta[win]||0)+cross;state.refineDelta[lose]=(state.refineDelta[lose]||0)-cross;applyPairToFinalOrder(win,lose)}const key=pairKey(aid,bid);state.refineSeen[key]=(state.refineSeen[key]||0)+1;state.refineSeen[aid]=(state.refineSeen[aid]||0)+1;state.refineSeen[bid]=(state.refineSeen[bid]||0)+1;state.refineDone++;saveState();updateGlobalNav();const rs=document.getElementById('refineStatus');if(rs)rs.textContent=refineProgressText();animatePair(side);setTimeout(nextRefinePair,150)}
+}}
 function animatePair(side){const el=document.getElementById('pair');el.style.transform=side==='left'?'translateX(-35px)':side==='right'?'translateX(35px)':'translateY(-28px)';el.style.opacity='.2';setTimeout(()=>{el.style.transform='';el.style.opacity='1'},140)}
 function toggleUnknownPicker(){document.getElementById('unknownPicker').classList.toggle('hidden')}
 function markUnknownRefine(side){pushRefineHistory();const id=state.pair[side==='left'?0:1];state.unknown[id]=true;delete state.ratings[id];delete state.refineDelta[id];state.finalOrder=(state.finalOrder||[]).filter(x=>x!==id);state.refineDone++;if(state.mandatoryRefine){state.mandatoryOrder=state.mandatoryOrder.filter(x=>x!==id);state.mandatoryQueue=state.mandatoryQueue.filter(x=>x!==id);if(state.mandatoryCandidate===id)state.mandatoryCandidate=null;saveState();updateGlobalNav();if(mandatoryRefineDone())finishMandatoryIfReady();else nextRefinePair();return}saveState();updateGlobalNav();nextRefinePair()}
-function currentOrder(){
-  const previous=new Map((state.finalOrder||[]).map((id,i)=>[id,i]));
-  return rankedEligible().sort((a,b)=>rankValue(b.id)-rankValue(a.id)||(previous.has(a.id)&&previous.has(b.id)?previous.get(a.id)-previous.get(b.id):a.title.localeCompare(b.title))).map(s=>s.id)
-}
-function ensureFinalOrder(){
-  const eligible=new Set(rankedEligible().map(s=>s.id));
-  const kept=(state.finalOrder||[]).filter(id=>eligible.has(id));
-  const seen=new Set(kept);
-  const missing=currentOrder().filter(id=>!seen.has(id));
-  state.finalOrder=[...kept,...missing];
-  return state.finalOrder;
-}
-function applyPairToFinalOrder(winner,loser){
-  ensureFinalOrder();
-  const ids=[...state.finalOrder];
-  const wi=ids.indexOf(winner),li=ids.indexOf(loser);
-  if(wi<0||li<0||wi<li)return;
-  ids.splice(wi,1);
-  const newLoser=ids.indexOf(loser);
-  ids.splice(newLoser,0,winner);
-  state.finalOrder=ids;
-}
+function currentOrder(){return composeTierRanking()}
+function ensureFinalOrder(){return composeTierRanking()}
+function applyPairToFinalOrder(){return composeTierRanking()}
 function openResultsDirect(tab='songs'){if(!rankedEligible().length)return alert('Score at least one song first.');ensureFinalOrder();saveState();section('results');renderResults();setTimeout(()=>{const btn=[...document.querySelectorAll('.tab')].find(b=>b.textContent.trim().toLowerCase().startsWith(tab==='compare'?'compare':tab));if(btn)showTab(tab,btn)},0)}
 function openResults(tab='songs'){if(!rankedEligible().length)return alert('Score at least one song first.');ensureMandatoryBeforeResults(tab)}
 function finishRefine(){if(state.mandatoryRefine){if(!mandatoryRefineDone())return;return finishMandatoryIfReady()}ensureFinalOrder();saveState();section('results');renderResults()}
@@ -417,7 +448,7 @@ function setupSwipe(){
   document.addEventListener('pointercancel',()=>{drag=false;swipePointer=null},{passive:true});
 }
 function getFinal(){const ids=(state.finalOrder&&state.finalOrder.length)?state.finalOrder:currentOrder();return ids.map(id=>SONG_BY_ID[id]).filter(Boolean)}
-function renderResults(){ensureFinalOrder();saveState();const final=getFinal();const refined=Object.keys(state.refineSeen||{}).some(k=>k.includes('|'));document.getElementById('resultSummary').textContent=refined?`${final.length} songs in your current order · ${Object.keys(state.unknown).length} marked unknown. Keep refining whenever you want.`:`${final.length} songs ordered from your quick scores. This is a provisional ranking until you refine the close calls.`;renderSongTable();renderAlbums();renderCompare();document.getElementById('exportText').value=makeExport();const sl=document.getElementById('shareLink');if(sl)sl.value=makeShareLink()}
+function renderResults(){ensureFinalOrder();saveState();const final=getFinal();const refined=Object.keys(state.refineSeen||{}).some(k=>k.includes('|'));const nextTier=highestUnsortedTier();document.getElementById('resultSummary').textContent=nextTier!=null?`${final.length} songs ranked by score tiers. Your higher tiers stay above lower ones. Next up: sort your ${nextTier}s.`:`${final.length} songs ranked · every score tier is sorted.`;renderSongTable();renderAlbums();renderCompare();document.getElementById('exportText').value=makeExport();const sl=document.getElementById('shareLink');if(sl)sl.value=makeShareLink()}
 function renderSongTable(){const final=getFinal();let h='<div class="table-wrap"><table><thead><tr><th>#</th><th>Song</th><th>Quick score</th><th>Album / context</th><th></th></tr></thead><tbody>';final.forEach((s,i)=>h+=`<tr class="result-row" style="--era:${eraColor(s.album)}"><td class="rank">${i+1}</td><td><span class="song-era-dot"></span>${esc(s.title)}</td><td>${displayScore(state.ratings[s.id])}</td><td class="albumcell">${esc(s.album)}${s.context?`<div class="small">${esc(s.context)}</div>`:''}</td><td><button class="adjust-btn" onclick="openRankAdjust('${s.id}')">Adjust</button></td></tr>`);document.getElementById('tab-songs').innerHTML=h+'</tbody></table></div>'}
 function openRankAdjust(id){
   const s=SONG_BY_ID[id];if(!s)return;
@@ -428,7 +459,7 @@ function openRankAdjust(id){
   panel.className='rank-adjust';
   panel.innerHTML=`<div class="rank-adjust-head"><div><b>${esc(s.title)}</b><div class="small">Currently #${rank} · quick score ${displayScore(score)}</div></div><button class="adjust-btn" onclick="closeRankAdjust()">✕</button></div>
   <div class="rank-adjust-controls">
-    <button class="btn" onclick="moveSongToRank('${id}',1)">Make #1</button>
+    <button class="btn" onclick="moveSongToRank('${id}',1)">Top of this score tier</button>
     <button class="btn" onclick="promptSongRank('${id}')">Move to rank…</button><button class="btn" onclick="startPlacement('${id}','results')">Re-place with swipes</button>
   </div>
   <div class="small" style="margin-top:12px;margin-bottom:6px">Correct quick score</div>
@@ -437,22 +468,22 @@ function openRankAdjust(id){
 }
 function closeRankAdjust(){const p=document.getElementById('rankAdjustPanel');p.className='hidden';p.innerHTML=''}
 function moveSongToRank(id,rank){
-  ensureFinalOrder();
-  const ids=state.finalOrder.filter(x=>x!==id);
-  const target=Math.max(1,Math.min(ids.length+1,Number(rank)||1));
-  ids.splice(target-1,0,id);
-  state.finalOrder=ids;
+  const score=scoreOf(id),tier=tierExistingOrder(score).filter(x=>x!==id);
+  const target=Math.max(1,Math.min(tier.length+1,Number(rank)||1));
+  tier.splice(target-1,0,id);
+  state.tierOrders[score]=tier;state.tierSorted[score]=true;composeTierRanking();
   saveState();renderResults();openRankAdjust(id);
 }
 function promptSongRank(id){
   const current=state.finalOrder.indexOf(id)+1;
-  const val=prompt('Move this song to what rank?',String(current));
+  const val=prompt('Move this song to what position within its '+scoreOf(id)+'s?',String(tierExistingOrder(scoreOf(id)).indexOf(id)+1));
   if(val===null)return;
   const n=parseInt(val,10);if(!Number.isFinite(n))return;
   moveSongToRank(id,n);
 }
 function correctSongScore(id,v){
-  state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];
+  const old=scoreOf(id);state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];
+  if(old)state.tierSorted[old]=false;state.tierSorted[v]=false;composeTierRanking();
   saveState();renderResults();openRankAdjust(id);
 }
 function renderAlbums(){const rows=ALBUMS.map(album=>({album,avg:albumAvg(album),count:albumSongs(album).filter(s=>Number.isFinite(state.ratings[s.id])).length})).filter(x=>x.avg!=null).sort((a,b)=>b.avg-a.avg);let h='<h2>Album averages</h2><p>These remain the literal averages of your quick 1–10 scores. Refinement changes song order, not what you scored the album.</p><div class="summary-grid">';rows.forEach((x,i)=>h+=`<div class="summary-card era-card" style="--era:${eraColor(x.album)}"><b>${i+1}. ${esc(x.album)}</b><div class="score">${x.avg.toFixed(2)}</div><div class="small">${x.count} scored</div></div>`);document.getElementById('tab-albums').innerHTML=h+'</div>'}
@@ -604,7 +635,7 @@ function renderCompare(){
   }
   document.getElementById('comparisonList').innerHTML=comps.length?comps.map((c,i)=>`<span class="pill">${esc(c.name)} <button onclick="removeComparison(${i})" style="all:unset;cursor:pointer;margin-left:5px">×</button></span>`).join(' '):'No friend comparisons added yet.';
   const final=getFinal();
-  let h='<div class="table-wrap"><table><thead><tr><th>#</th><th>Song</th><th class="vertical-head"><span>Yours</span></th>';
+  let h='<div class="table-wrap"><table class="compare-table"><thead><tr><th>#</th><th>Song</th><th class="vertical-head"><span>Yours</span></th>';
   CRITIC_SOURCES.forEach(s=>h+=`<th class="vertical-head" title="${esc(s.subtitle)}"><span>${esc(s.short||s.label)}</span></th>`);
   comps.forEach(c=>h+=`<th class="vertical-head"><span>${esc(c.name)}</span></th>`);
   h+='</tr></thead><tbody>';
