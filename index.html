@@ -100,8 +100,8 @@ async function loadCriticSources(){
   }
 }
 const STORAGE='taylor-ranker-v4';
-function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',pendingPlacementIds:[],tierOrders:{},tierSorted:{},activeTierScore:null,savedAt:null}}
-function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[],tierOrders:s.tierOrders||{},tierSorted:s.tierSorted||{}})}catch(e){return null}}
+function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',pendingPlacementIds:[],tierOrders:{},tierSorted:{},activeTierScore:null,rankTier:{},crossTierMode:false,crossTierSong:null,crossTierFrom:null,crossTierTo:null,crossTierReturn:'results',savedAt:null}}
+function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[],tierOrders:s.tierOrders||{},tierSorted:s.tierSorted||{},rankTier:s.rankTier||{}})}catch(e){return null}}
 let state=loadState()||blankState();
 for(const id of Object.keys(state.ratings||{})){const n=Number(state.ratings[id]);if(Number.isFinite(n))state.ratings[id]=Math.max(1,Math.min(10,Math.round(n)));else delete state.ratings[id]}
 if(!state.tierOrders||typeof state.tierOrders!=='object')state.tierOrders={};
@@ -118,15 +118,15 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 function updateGlobalNav(){const back=document.getElementById('globalBack'),home=document.getElementById('globalHome'),undo=document.getElementById('globalUndo');if(!back||!home||!undo)return;const atStart=state.phase==='start';back.style.display=atStart?'none':'';home.style.display=atStart?'none':'';undo.style.display=(state.phase==='refine'&&state.refineHistory.length)?'':'none';back.textContent='←';home.textContent='⌂';undo.textContent='↶'}
 function section(id){['start','ratings','missing','summary','refine','results','sharedInvite','importer'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');state.phase=id;saveState();updateGlobalNav();window.scrollTo({top:0,behavior:'instant'})}
 function goHome(){section('start')}
-function appBack(){if(state.phase==='refine'){if(state.refineHistory.length)return undoRefine();section('summary');renderSummary();return}if(state.phase==='ratings'){if(state.albumIndex>0){state.albumIndex--;saveState();renderAlbum();updateGlobalNav()}else goHome();return}if(state.phase==='summary'){section('ratings');state.albumIndex=Math.max(0,ALBUMS.length-1);saveState();renderAlbum();return}if(state.phase==='results'){section('summary');renderSummary();return}if(state.phase==='missing'){section('summary');renderSummary();return}if(state.phase==='sharedInvite'){dismissSharedInvite();return}if(state.phase==='importer'){goHome();return}goHome()}
+function appBack(){if(state.phase==='refine'){if(state.crossTierMode){state.crossTierMode=false;state.crossTierSong=null;section('results');renderResults();return}if(state.refineHistory.length)return undoRefine();section('summary');renderSummary();return}if(state.phase==='ratings'){if(state.albumIndex>0){state.albumIndex--;saveState();renderAlbum();updateGlobalNav()}else goHome();return}if(state.phase==='summary'){section('ratings');state.albumIndex=Math.max(0,ALBUMS.length-1);saveState();renderAlbum();return}if(state.phase==='results'){section('summary');renderSummary();return}if(state.phase==='missing'){section('summary');renderSummary();return}if(state.phase==='sharedInvite'){dismissSharedInvite();return}if(state.phase==='importer'){goHome();return}goHome()}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function albumSongs(album){return SONGS.filter(s=>s.album===album)}
 function ratedCount(){return SONGS.filter(s=>state.ratings[s.id]!=null||state.unknown[s.id]).length}
 function albumAvg(album){const vals=albumSongs(album).map(s=>state.ratings[s.id]).filter(v=>Number.isFinite(v));return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null}
 function beginRatings(){state.albumIndex=0;section('ratings');renderAlbum()}
 function resumeRatings(){section('ratings');renderAlbum()}
-function setRating(id,v){const old=scoreOf(id);state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];if(old)state.tierSorted[old]=false;state.tierSorted[v]=false;composeTierRanking();saveState();renderAlbum(false)}
-function toggleUnknown(id){const old=scoreOf(id);if(state.unknown[id])delete state.unknown[id];else{state.unknown[id]=true;delete state.ratings[id];delete state.refineDelta[id]}if(old)state.tierSorted[old]=false;composeTierRanking();saveState();renderAlbum(false)}
+function setRating(id,v){const old=effectiveTier(id);state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];delete state.rankTier[id];if(old)state.tierSorted[old]=false;state.tierSorted[v]=false;composeTierRanking();saveState();renderAlbum(false)}
+function toggleUnknown(id){const old=scoreOf(id);if(state.unknown[id])delete state.unknown[id];else{state.unknown[id]=true;delete state.ratings[id];delete state.refineDelta[id];delete state.rankTier[id]}if(old)state.tierSorted[old]=false;composeTierRanking();saveState();renderAlbum(false)}
 function renderAlbum(scroll=true){const album=ALBUMS[state.albumIndex]||ALBUMS[0],songs=albumSongs(album);document.getElementById('albumTitle').textContent=album;document.getElementById('albumCount').textContent=`${songs.length} songs · album ${state.albumIndex+1} of ${ALBUMS.length}`;const avg=albumAvg(album);document.getElementById('albumAverage').textContent=avg==null?'— avg':avg.toFixed(2)+' avg';document.getElementById('ratingProgress').textContent=`${ratedCount()} of ${SONGS.length} scored`;document.getElementById('ratingBar').style.width=`${ratedCount()/SONGS.length*100}%`;let h='';for(const s of songs){const r=state.ratings[s.id],u=!!state.unknown[s.id];h+=`<div class="song-row"><div><div class="song-name">${esc(s.title)}</div>${s.context?`<div class="song-context">${esc(s.context)}</div>`:''}</div><div class="rate-wrap"><div class="rate-scroll">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="rate ${r===n?'selected':''}" onclick="setRating('${s.id}',${n})">${n}</button>`).join('')}</div><button class="unknown-btn ${u?'selected':''}" title="I don't know it" onclick="toggleUnknown('${s.id}')">?</button></div></div>`}document.getElementById('songList').innerHTML=h;document.getElementById('nextAlbumBtn').textContent=state.albumIndex===ALBUMS.length-1?'Finish quick scores →':'Next album →';if(scroll)window.scrollTo({top:0,behavior:'instant'});updateGlobalNav()}
 function nextAlbum(){if(state.albumIndex<ALBUMS.length-1){state.albumIndex++;saveState();renderAlbum()}else{beginMandatoryRefine()}}
 function prevAlbum(){if(state.albumIndex>0){state.albumIndex--;saveState();renderAlbum()}else goHome()}
@@ -150,6 +150,7 @@ function setMissingRating(id,v){
   state.ratings[id]=v;
   delete state.unknown[id];
   delete state.refineDelta[id];
+  delete state.rankTier[id];
   state.tierSorted[v]=false;state.pendingPlacementIds=state.pendingPlacementIds||[];
   if(!state.pendingPlacementIds.includes(id))state.pendingPlacementIds.push(id);
   saveState();
@@ -267,7 +268,8 @@ function ensureMandatoryBeforeResults(tab='songs'){
 function rankedEligible(){return SONGS.filter(s=>Number.isFinite(state.ratings[s.id])&&!state.unknown[s.id])}
 function pairKey(a,b){return [a,b].sort().join('|')}
 function scoreOf(id){return Math.round(Number(state.ratings[id])||0)}
-function tierSongs(score){return rankedEligible().filter(s=>scoreOf(s.id)===Number(score))}
+function effectiveTier(id){const t=Number(state.rankTier?.[id]);return Number.isFinite(t)&&t>=1&&t<=10?t:scoreOf(id)}
+function tierSongs(score){return rankedEligible().filter(s=>effectiveTier(s.id)===Number(score))}
 function tierExistingOrder(score){
   const ids=tierSongs(score).map(s=>s.id),set=new Set(ids);
   const saved=(state.tierOrders?.[score]||[]).filter(id=>set.has(id));
@@ -281,6 +283,11 @@ function highestUnsortedTier(){
   for(let score=10;score>=1;score--){
     if(tierSongs(score).length>=2&&!state.tierSorted?.[score])return score;
   }
+  return null;
+}
+function allTiersSorted(){return highestUnsortedTier()==null}
+function nextHigherTier(score){
+  for(let s=Number(score)+1;s<=10;s++)if(tierSongs(s).length)return s;
   return null;
 }
 function composeTierRanking(){
@@ -341,6 +348,36 @@ function applyPlacementChoice(side){
   else if(side==='right')state.placementLow=mid+1;
   else{state.placementLow=mid;state.placementHigh=mid}
 }
+function startCrossTierChallenge(id,returnPhase='results'){
+  if(!allTiersSorted())return startPlacement(id,returnPhase);
+  const from=effectiveTier(id),to=nextHigherTier(from);
+  if(!to)return startPlacement(id,returnPhase);
+  const upper=tierExistingOrder(to);
+  if(!upper.length)return startPlacement(id,returnPhase);
+  state.crossTierMode=true;
+  state.crossTierSong=id;
+  state.crossTierFrom=from;
+  state.crossTierTo=to;
+  state.crossTierReturn=returnPhase;
+  state.pair=[id,upper[upper.length-1]];
+  state.refineHistory=[];
+  section('refine');
+  renderRefinePair();saveState();
+}
+function finishCrossTierChallenge(won){
+  const id=state.crossTierSong,from=state.crossTierFrom,to=state.crossTierTo,ret=state.crossTierReturn||'results';
+  state.crossTierMode=false;state.crossTierSong=null;state.crossTierFrom=null;state.crossTierTo=null;
+  if(won){
+    state.rankTier[id]=to;
+    state.tierOrders[from]=tierExistingOrder(from).filter(x=>x!==id);
+    state.tierSorted[from]=true;
+    state.tierSorted[to]=true;
+    composeTierRanking();
+    return startPlacement(id,ret);
+  }
+  saveState();
+  if(ret==='results'){section('results');renderResults()}else{section('summary');renderSummary()}
+}
 function setupTierSort(score){
   const ids=tierExistingOrder(score);
   if(ids.length<2)return false;
@@ -372,6 +409,10 @@ function refineMore(){startRefine()}
 function nextRefinePair(){state.pair=choosePair();if(!state.pair){if(state.placementMode)return finishPlacement();if(state.mandatoryRefine)return finishMandatoryIfReady();return openResultsDirect('songs')}renderRefinePair();saveState()}
 function cardHTML(s){return `<div class="t">${esc(s.title)}</div><div class="a">${esc(s.album==='Non-album songs'?'Non-album song':s.album)}</div>${s.context?`<div class="c">${esc(s.context)}</div>`:''}`}
 function refineProgressText(){
+  if(state.crossTierMode){
+    const s=SONG_BY_ID[state.crossTierSong];
+    return `Tier challenge · ${s?esc(s.title):'this song'} vs the bottom of your ${state.crossTierTo}s`;
+  }
   if(state.placementMode){
     const span=Math.max(0,state.placementHigh-state.placementLow);
     const approx=span<=1?1:Math.ceil(Math.log2(span+1));
@@ -380,7 +421,10 @@ function refineProgressText(){
   if(state.mandatoryRefine){
     const total=(state.mandatoryOrder?.length||0)+(state.mandatoryQueue?.length||0)+(state.mandatoryCandidate?1:0);
     const placed=state.mandatoryOrder?.length||0;
-    return `Sorting your ${state.mandatoryScore}s · ${placed} of ${Math.max(total,placed)} placed`;
+    const candidate=state.mandatoryCandidate&&SONG_BY_ID[state.mandatoryCandidate];
+    const span=Math.max(0,state.mandatoryHigh-state.mandatoryLow);
+    const approx=span<=1?1:Math.ceil(Math.log2(span+1));
+    return candidate?`Placing ${candidate.title} among your ${state.mandatoryScore}s · about ${approx} choice${approx===1?'':'s'} left`:`Sorting your ${state.mandatoryScore}s · ${placed} of ${Math.max(total,placed)} placed`;
   }
   const pairKeys=Object.keys(state.refineSeen||{}).filter(k=>k.includes('|'));
   const decisions=pairKeys.reduce((sum,k)=>sum+(state.refineSeen[k]||0),0);
@@ -388,7 +432,7 @@ function refineProgressText(){
   pairKeys.forEach(k=>{const [a,b]=k.split('|');if(a)touched.add(a);if(b)touched.add(b)});
   return `${decisions} decision${decisions===1?'':'s'} made · ${touched.size} song${touched.size===1?'':'s'} refined · stop anytime`;
 }
-function renderRefinePair(){const[a,b]=state.pair.map(id=>SONG_BY_ID[id]);const h2=document.querySelector('#refine h2'),intro=document.querySelector('#refine>p'),label=document.getElementById('refineStatus');if(state.placementMode){if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Where does it belong?';if(intro)intro.textContent='A few quick swipes will drop this song into your saved ranking.'}else if(state.mandatoryRefine){if(label)label.textContent=refineProgressText();if(h2)h2.textContent=`Sort your ${state.mandatoryScore}s`;if(intro)intro.textContent=`These all have a quick score of ${state.mandatoryScore}. We’ll put this tier into a real order before moving lower.`}else{if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Which do you prefer?';if(intro)intro.textContent='Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.'};document.getElementById('leftChoice').innerHTML=cardHTML(a);document.getElementById('rightChoice').innerHTML=cardHTML(b);document.getElementById('leftBtn').textContent='←';document.getElementById('rightBtn').textContent='→';document.getElementById('unknownLeft').textContent=a.title;document.getElementById('unknownRight').textContent=b.title;document.getElementById('unknownPicker').classList.add('hidden');const foot=document.querySelector('#refine .footer-actions');if(foot)foot.style.display=state.mandatoryRefine?'none':''}
+function renderRefinePair(){const[a,b]=state.pair.map(id=>SONG_BY_ID[id]);const h2=document.querySelector('#refine h2'),intro=document.querySelector('#refine>p'),label=document.getElementById('refineStatus');if(state.crossTierMode){if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Does it belong a tier higher?';if(intro)intro.textContent=`If it beats the lowest-ranked song in your ${state.crossTierTo}s, we’ll promote it and place it within that tier.`}else if(state.placementMode){if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Where does it belong?';if(intro)intro.textContent='A few quick swipes will drop this song into your saved ranking.'}else if(state.mandatoryRefine){if(label)label.textContent=refineProgressText();if(h2)h2.textContent=`Sort your ${state.mandatoryScore}s`;if(intro)intro.textContent=`These all have a quick score of ${state.mandatoryScore}. We’ll put this tier into a real order before moving lower.`}else{if(label)label.textContent=refineProgressText();if(h2)h2.textContent='Which do you prefer?';if(intro)intro.textContent='Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.'};document.getElementById('leftChoice').innerHTML=cardHTML(a);document.getElementById('rightChoice').innerHTML=cardHTML(b);document.getElementById('leftBtn').textContent='←';document.getElementById('rightBtn').textContent='→';document.getElementById('unknownLeft').textContent=a.title;document.getElementById('unknownRight').textContent=b.title;document.getElementById('unknownPicker').classList.add('hidden');const foot=document.querySelector('#refine .footer-actions');if(foot)foot.style.display=(state.mandatoryRefine||state.crossTierMode)?'none':''}
 function pushRefineHistory(){const pair=state.pair?[...state.pair]:null;if(!pair)return;const[aid,bid]=pair,key=pairKey(aid,bid);state.refineHistory.push({pair,refineDone:state.refineDone,deltaA:state.refineDelta[aid],deltaB:state.refineDelta[bid],skip:state.refineSkipped[key],seenPair:state.refineSeen[key],seenA:state.refineSeen[aid],seenB:state.refineSeen[bid],ratingA:state.ratings[aid],ratingB:state.ratings[bid],unknownA:!!state.unknown[aid],unknownB:!!state.unknown[bid]});if(state.refineHistory.length>100)state.refineHistory.shift()}
 function setMaybe(obj,key,val){if(typeof val==='undefined')delete obj[key];else obj[key]=val}
 function undoRefine(){if(state.phase!=='refine')return;const h=state.refineHistory.pop();if(!h)return;const[aid,bid]=h.pair,key=pairKey(aid,bid);setMaybe(state.refineDelta,aid,h.deltaA);setMaybe(state.refineDelta,bid,h.deltaB);setMaybe(state.refineSkipped,key,h.skip);setMaybe(state.refineSeen,key,h.seenPair);setMaybe(state.refineSeen,aid,h.seenA);setMaybe(state.refineSeen,bid,h.seenB);setMaybe(state.ratings,aid,h.ratingA);setMaybe(state.ratings,bid,h.ratingB);if(h.unknownA)state.unknown[aid]=true;else delete state.unknown[aid];if(h.unknownB)state.unknown[bid]=true;else delete state.unknown[bid];state.refineDone=h.refineDone;state.pair=[...h.pair];saveState();renderRefinePair();updateGlobalNav()}
@@ -408,7 +452,12 @@ function applyMandatoryChoice(side){
     state.mandatoryCandidate=null;
   }
 }
-function chooseRefine(side){pushRefineHistory();const[aid,bid]=state.pair;if(state.placementMode){
+function chooseRefine(side){pushRefineHistory();const[aid,bid]=state.pair;if(state.crossTierMode){
+  const candidate=state.crossTierSong;
+  const won=side==='left'&&aid===candidate||side==='right'&&bid===candidate;
+  animatePair(side);setTimeout(()=>finishCrossTierChallenge(won),160);return;
+}
+if(state.placementMode){
   applyPlacementChoice(side);
   saveState();updateGlobalNav();const rs=document.getElementById('refineStatus');if(rs)rs.textContent=refineProgressText();animatePair(side);
   if(state.placementLow>=state.placementHigh)setTimeout(finishPlacement,160);else setTimeout(nextRefinePair,150);
@@ -448,7 +497,7 @@ function setupSwipe(){
   document.addEventListener('pointercancel',()=>{drag=false;swipePointer=null},{passive:true});
 }
 function getFinal(){const ids=(state.finalOrder&&state.finalOrder.length)?state.finalOrder:currentOrder();return ids.map(id=>SONG_BY_ID[id]).filter(Boolean)}
-function renderResults(){ensureFinalOrder();saveState();const final=getFinal();const refined=Object.keys(state.refineSeen||{}).some(k=>k.includes('|'));const nextTier=highestUnsortedTier();document.getElementById('resultSummary').textContent=nextTier!=null?`${final.length} songs ranked by score tiers. Your higher tiers stay above lower ones. Next up: sort your ${nextTier}s.`:`${final.length} songs ranked · every score tier is sorted.`;renderSongTable();renderAlbums();renderCompare();document.getElementById('exportText').value=makeExport();const sl=document.getElementById('shareLink');if(sl)sl.value=makeShareLink()}
+function renderResults(){ensureFinalOrder();saveState();const final=getFinal();const refined=Object.keys(state.refineSeen||{}).some(k=>k.includes('|'));const nextTier=highestUnsortedTier();document.getElementById('resultSummary').textContent=nextTier!=null?`${final.length} songs ranked by score tiers. Next up: sort your ${nextTier}s.`:`${final.length} songs ranked · every score tier is sorted. You can now use Adjust on any song to challenge the tier above.`;renderSongTable();renderAlbums();renderCompare();document.getElementById('exportText').value=makeExport();const sl=document.getElementById('shareLink');if(sl)sl.value=makeShareLink()}
 function renderSongTable(){const final=getFinal();let h='<div class="table-wrap"><table><thead><tr><th>#</th><th>Song</th><th>Quick score</th><th>Album / context</th><th></th></tr></thead><tbody>';final.forEach((s,i)=>h+=`<tr class="result-row" style="--era:${eraColor(s.album)}"><td class="rank">${i+1}</td><td><span class="song-era-dot"></span>${esc(s.title)}</td><td>${displayScore(state.ratings[s.id])}</td><td class="albumcell">${esc(s.album)}${s.context?`<div class="small">${esc(s.context)}</div>`:''}</td><td><button class="adjust-btn" onclick="openRankAdjust('${s.id}')">Adjust</button></td></tr>`);document.getElementById('tab-songs').innerHTML=h+'</tbody></table></div>'}
 function openRankAdjust(id){
   const s=SONG_BY_ID[id];if(!s)return;
@@ -460,7 +509,7 @@ function openRankAdjust(id){
   panel.innerHTML=`<div class="rank-adjust-head"><div><b>${esc(s.title)}</b><div class="small">Currently #${rank} · quick score ${displayScore(score)}</div></div><button class="adjust-btn" onclick="closeRankAdjust()">✕</button></div>
   <div class="rank-adjust-controls">
     <button class="btn" onclick="moveSongToRank('${id}',1)">Top of this score tier</button>
-    <button class="btn" onclick="promptSongRank('${id}')">Move to rank…</button><button class="btn" onclick="startPlacement('${id}','results')">Re-place with swipes</button>
+    <button class="btn" onclick="promptSongRank('${id}')">Move to rank…</button><button class="btn" onclick="allTiersSorted()?startCrossTierChallenge('${id}','results'):startPlacement('${id}','results')">${allTiersSorted()&&nextHigherTier(effectiveTier(id))?'Challenge next tier':'Re-place with swipes'}</button>
   </div>
   <div class="small" style="margin-top:12px;margin-bottom:6px">Correct quick score</div>
   <div class="rate-scroll">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="rate ${score===n?'selected':''}" onclick="correctSongScore('${id}',${n})">${n}</button>`).join('')}</div>`;
@@ -482,7 +531,7 @@ function promptSongRank(id){
   moveSongToRank(id,n);
 }
 function correctSongScore(id,v){
-  const old=scoreOf(id);state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];
+  const old=effectiveTier(id);state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];delete state.rankTier[id];
   if(old)state.tierSorted[old]=false;state.tierSorted[v]=false;composeTierRanking();
   saveState();renderResults();openRankAdjust(id);
 }
