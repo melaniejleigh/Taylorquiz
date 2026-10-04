@@ -102,7 +102,7 @@ const ERA_COLORS={
 function eraColor(album){return ERA_COLORS[album]||'#777'}
 function displayScore(v){if(!Number.isFinite(Number(v)))return '—';return String(Math.round(Number(v)))}
 let CRITIC_SOURCES=[];
-let compareSelected=null,compareSort='me',albumSort='weighted';
+let compareSelected=null,compareSort='me',albumSort='overall';
 function referenceSongIds(title){
   const n=normalizeImportTitle(title);
   if(n==='all too well both versions'){
@@ -994,27 +994,35 @@ function correctSongScore(id,v){
   state.tierSorted[v]=false;
   composeTierRanking();saveState();renderResults();openRankAdjust(id);
 }
+function refinedSongScore(id){
+  const raw=Number(state.ratings[id]);
+  if(!Number.isFinite(raw))return null;
+  const tier=effectiveTier(id);
+  const base=Number.isFinite(tier)&&tier>=1&&tier<=10?tier:raw;
+  const order=tierExistingOrder(tier);
+  const sorted=order.length<2||!!state.tierSorted?.[tier];
+  if(!sorted||order.length<2)return Math.max(1,Math.min(10,base));
+  const idx=order.indexOf(id);
+  if(idx<0)return Math.max(1,Math.min(10,base));
+  const pct=idx/(order.length-1);
+  const adjustment=0.4-(0.8*pct);
+  return Math.max(1,Math.min(10,base+adjustment));
+}
 function albumRefinedMetrics(album){
   const songs=albumSongs(album).filter(s=>Number.isFinite(state.ratings[s.id])&&!state.unknown[s.id]);
   if(!songs.length)return null;
   const final=getFinal();
   const rankMap={};final.forEach((s,i)=>rankMap[s.id]=i+1);
-  const n=Math.max(1,final.length);
-  const weightedParts=songs.map(s=>{
-    const rating=Number(state.ratings[s.id]);
-    const r=rankMap[s.id];
-    if(!Number.isFinite(rating))return null;
-    const pct=(r&&n>1)?((r-1)/(n-1)):0.5;
-    const weight=r?(3-(2*pct)):1;
-    return {rating,weight};
-  }).filter(Boolean);
-  const weightTotal=weightedParts.reduce((sum,x)=>sum+x.weight,0);
-  const weighted=weightTotal?weightedParts.reduce((sum,x)=>sum+x.rating*x.weight,0)/weightTotal:null;
+  const refinedValues=songs.map(s=>refinedSongScore(s.id)).filter(Number.isFinite);
+  const refined=refinedValues.length?refinedValues.reduce((a,b)=>a+b,0)/refinedValues.length:null;
+  const peakCount=Math.max(1,Math.ceil(refinedValues.length/2));
+  const peakValues=[...refinedValues].sort((a,b)=>b-a).slice(0,peakCount);
+  const peak=peakValues.length?peakValues.reduce((a,b)=>a+b,0)/peakValues.length:null;
+  const raw=albumAvg(album);
+  const overall=Number.isFinite(refined)&&Number.isFinite(peak)?(refined+peak)/2:(refined??peak??raw);
   const top=songs.slice().sort((a,b)=>(rankMap[a.id]||9999)-(rankMap[b.id]||9999))[0]||null;
   return {
-    album,
-    raw:albumAvg(album),
-    weighted,
+    album,raw,refined,peak,overall,
     songs:songs.slice().sort((a,b)=>(rankMap[a.id]||9999)-(rankMap[b.id]||9999)),
     rankMap,
     top,
@@ -1029,19 +1037,31 @@ function toggleAlbumDetail(key){
   if(el)el.classList.toggle('hidden');
 }
 function albumKey(album){return album.toLowerCase().replace(/[^a-z0-9]+/g,'-')}
+function albumMetricValue(x,mode){
+  if(mode==='raw')return x.raw;
+  if(mode==='refined')return x.refined;
+  if(mode==='peak')return x.peak;
+  return x.overall;
+}
+function albumMetricLabel(mode){
+  if(mode==='raw')return 'Raw';
+  if(mode==='refined')return 'Refined';
+  if(mode==='peak')return 'Peak';
+  return 'Overall';
+}
 function renderAlbums(){
   const el=document.getElementById('tab-albums');if(!el)return;
   let rows=ALBUMS.map(album=>albumRefinedMetrics(album)).filter(Boolean);
-  rows.sort((a,b)=>{
-    if(albumSort==='raw')return (b.raw??-1)-(a.raw??-1);
-    return (b.weighted??-1)-(a.weighted??-1);
-  });
+  rows.sort((a,b)=>(albumMetricValue(b,albumSort)??-1)-(albumMetricValue(a,albumSort)??-1));
 
-  let h='<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><h2 style="margin:0;font-size:20px">Album ranking</h2><div class="actions" style="margin-top:0;gap:5px"><button class="btn '+(albumSort==='weighted'?'primary':'')+'" onclick="setAlbumSort(\'weighted\')">Weighted</button><button class="btn '+(albumSort==='raw'?'primary':'')+'" onclick="setAlbumSort(\'raw\')">Raw</button></div></div>';
-  h+='<div class="album-rank-list">';
+  let h='<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h2 style="margin:0;font-size:20px">Album ranking</h2><div class="compare-sortbar" style="margin-top:0;flex-wrap:wrap">';
+  ['overall','refined','raw','peak'].forEach(mode=>{
+    h+='<button class="btn '+(albumSort===mode?'primary':'')+'" onclick="setAlbumSort(\''+mode+'\')">'+albumMetricLabel(mode)+'</button>';
+  });
+  h+='</div></div><div class="album-rank-list">';
   rows.forEach((x,i)=>{
     const key=albumKey(x.album);
-    const display=albumSort==='weighted'?x.weighted:x.raw;
+    const display=albumMetricValue(x,albumSort);
     h+=`<div class="album-rank-row" style="--era:${eraColor(x.album)}">
       <div class="album-rank-main" onclick="toggleAlbumDetail('${key}')">
         <div class="album-rank-num">#${i+1}</div>
@@ -1049,7 +1069,7 @@ function renderAlbums(){
         <div class="album-rank-score">${display==null?'—':display.toFixed(2)}</div>
       </div>
       <div id="albumDetail-${key}" class="album-rank-detail hidden">
-        <div class="small" style="margin-bottom:6px">Raw ${x.raw==null?'—':x.raw.toFixed(2)} · Weighted ${x.weighted==null?'—':x.weighted.toFixed(2)}${x.top?` · Top: #${x.topRank} ${esc(x.top.title)}`:''}</div>
+        <div class="small" style="margin-bottom:6px">Overall ${x.overall?.toFixed(2)??'—'} · Refined ${x.refined?.toFixed(2)??'—'} · Raw ${x.raw?.toFixed(2)??'—'} · Peak ${x.peak?.toFixed(2)??'—'}${x.top?` · Top: #${x.topRank} ${esc(x.top.title)}`:''}</div>
         ${x.songs.map(s=>{const r=x.rankMap[s.id];const fallback=!r&&Number.isFinite(state.ratings[s.id])?displayScore(state.ratings[s.id]):'';return `<div class="album-song-row"><div class="album-song-rank">${r?'#'+r:''}</div><div>${esc(s.title)}</div><div class="album-song-score">${r?'':fallback}</div></div>`}).join('')}
       </div>
     </div>`;
