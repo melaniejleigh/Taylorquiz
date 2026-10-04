@@ -1,0 +1,70 @@
+name: Extract critic rankings
+
+on:
+  push:
+    paths:
+      - ".github/workflows/extract-rankings.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install openpyxl
+      - name: Download and extract ranking sources
+        run: |
+          python - <<'PY'
+          import json, re, urllib.request
+          from pathlib import Path
+          import openpyxl
+
+          url="https://www.listobsession.com/wp-content/uploads/Best-Taylor-Swift-Songs.xlsx"
+          path="/tmp/rankings.xlsx"
+          urllib.request.urlretrieve(url,path)
+          wb=openpyxl.load_workbook(path,data_only=True)
+
+          out={"sheets":{}, "sources":{}}
+          targets=["Rolling Stone","Vulture","Variety","Ranker"]
+          for ws in wb.worksheets:
+              rows=list(ws.iter_rows(values_only=True))
+              out["sheets"][ws.title]={"rows":len(rows),"cols":ws.max_column,"sample":[list(r[:20]) for r in rows[:8]]}
+              # Find any row containing target source names and treat that as a header row.
+              for ri,row in enumerate(rows):
+                  vals=[str(v).strip() if v is not None else "" for v in row]
+                  hits={}
+                  for target in targets:
+                      for ci,v in enumerate(vals):
+                          if target.lower() in v.lower():
+                              hits[target]=ci
+                  if hits:
+                      # Guess song/title column by nearby header names, otherwise first col.
+                      song_ci=0
+                      for ci,v in enumerate(vals):
+                          if re.search(r"song|track|title",v,re.I):
+                              song_ci=ci; break
+                      for target,ci in hits.items():
+                          items=[]
+                          for rr in rows[ri+1:]:
+                              title=rr[song_ci] if song_ci < len(rr) else None
+                              rank=rr[ci] if ci < len(rr) else None
+                              if title is None: continue
+                              if isinstance(rank,(int,float)) or (isinstance(rank,str) and rank.strip().isdigit()):
+                                  items.append({"title":str(title).strip(),"rank":int(float(rank))})
+                          if items:
+                              prev=out["sources"].get(target,[])
+                              if len(items)>len(prev): out["sources"][target]=items
+          Path("critic-ranking-extract.json").write_text(json.dumps(out,indent=2,ensure_ascii=False))
+          PY
+      - name: Commit extracted data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add critic-ranking-extract.json
+          git commit -m "Extract critic ranking source data" || exit 0
+          git push
