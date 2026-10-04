@@ -74,6 +74,7 @@ h1{font-size:24px}h2{font-size:22px}
     <div id="comparisonList" class="small" style="margin-top:12px"></div>
   </details>
 </div><div id="tab-share" class="hidden"><div id="cloudShareStatus" class="notice" style="margin-bottom:14px"></div><p>Copy this anywhere. Paste it back later to restore your final ranking, or send it to someone so they can add you as a comparison column.</p><textarea id="exportText" readonly></textarea><div class="actions"><button class="btn primary" onclick="copyExport(event)">Copy ranking</button><button class="btn" onclick="downloadExport()">Download text</button></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Shareable quiz link</div><input id="shareLink" readonly><div class="actions"><button class="btn primary" onclick="copyShareLink(event)">Copy invite link</button></div></div></div></section>
+<section id="shareLoading" class="panel hidden"><h1>Loading shared ranking…</h1><p>One second while we pull the saved ranking.</p></section>
 <section id="sharedInvite" class="panel hidden"><h1 id="sharedInviteTitle">Someone sent you their Taylor ranking</h1><p id="sharedInviteText">You can peek at their results now, or take the quiz first and compare when you’re done.</p><div class="actions"><button class="btn primary" onclick="startFromShared()">Take the quiz</button><button class="btn" onclick="viewSharedResults()">View their ranking</button><button class="btn soft" onclick="dismissSharedInvite()">Not now</button></div></section>
 <section id="sharedPreview" class="panel hidden"><h1 id="sharedPreviewTitle">Shared ranking</h1><p id="sharedPreviewMeta"></p><div class="actions"><button class="btn primary" onclick="startFromShared()">Take the quiz & compare</button><button class="btn soft" onclick="section('sharedInvite')">Back</button></div><div id="sharedPreviewTable"></div></section>
 <section id="importer" class="panel hidden"><h1>Import ranking</h1><p>Paste a ranking previously exported from this app.</p><textarea id="restoreText"></textarea><div class="actions"><button class="btn primary" onclick="restoreRanking()">Restore</button><button class="btn soft" onclick="goHome()">Cancel</button></div></section>
@@ -267,8 +268,10 @@ async function loadCloudRanking(id){
     const loaded=Object.assign(blankState(),rec.ranking_state||{});
     loaded.cloudSaveId=rec.id;loaded.cloudShareCode=rec.share_code;loaded.cloudUsername=rec.username;loaded.cloudUpdatedAt=rec.updated_at;
     loaded.ratings=loaded.ratings||{};loaded.unknown=loaded.unknown||{};loaded.refineDelta=loaded.refineDelta||{};loaded.refineSeen=loaded.refineSeen||{};loaded.refineSkipped=loaded.refineSkipped||{};loaded.comparisons=loaded.comparisons||[];loaded.refineHistory=loaded.refineHistory||[];loaded.resultHistory=loaded.resultHistory||[];loaded.tierOrders=loaded.tierOrders||{};loaded.tierSorted=loaded.tierSorted||{};loaded.rankTier=loaded.rankTier||{};
-    state=loaded;localStorage.setItem(STORAGE,JSON.stringify(state));
-    if(hasActiveRefinement()){section('refine');if(state.pair)renderRefinePair();else nextRefinePair();return}
+    state=loaded;
+    // Restoring a save should resume the ranking, not force the user straight into an unfinished refinement.
+    // Keep all active refinement fields intact so Refine/Resume can continue exactly where they left off.
+    localStorage.setItem(STORAGE,JSON.stringify(state));
     if((state.finalOrder||[]).length){section('results');renderResults();return}
     if(ratedCount()){section('summary');renderSummary();return}
     goHome();
@@ -940,15 +943,23 @@ function sharedRanksFromSource(src){
 async function loadSharedFromHash(){
   const m=location.hash.match(/^#share=([^&]+)/);
   if(!m)return false;
+  section('shareLoading');
   let src=null;
   const token=decodeURIComponent(m[1]);
-  if(/^[a-f0-9]{10}$/i.test(token)){
-    try{src=await cloudSourceFromShareCode(token)}catch(e){console.error('Could not load shared cloud ranking',e)}
-  }else{
-    src=decodeSharePayload(token);
+  try{
+    if(/^[a-f0-9]{10}$/i.test(token))src=await cloudSourceFromShareCode(token);
+    else src=decodeSharePayload(token);
+  }catch(e){
+    console.error('Could not load shared ranking',e);
   }
-  if(!src||!Array.isArray(src.o))return false;
-  state.sharedSource=src;saveState();
+  if(!src||!Array.isArray(src.o)||!src.o.length){
+    const panel=document.getElementById('shareLoading');
+    if(panel)panel.innerHTML='<h1>Could not load that ranking</h1><p>The share link exists, but the saved ranking could not be loaded right now.</p><div class="actions"><button class="btn" onclick="location.reload()">Try again</button><button class="btn soft" onclick="dismissSharedInvite()">Home</button></div>';
+    return true;
+  }
+  state.sharedSource=src;
+  // Store locally without triggering cloud autosave of the current user's own ranking.
+  try{localStorage.setItem(STORAGE,JSON.stringify(state))}catch(e){}
   document.getElementById('sharedInviteTitle').textContent=(src.n&&src.n!=='Friend'?src.n:'Someone')+' sent you their Taylor ranking';
   document.getElementById('sharedInviteText').textContent='Take the quiz and their ranking will already be waiting in Compare when you finish.';
   section('sharedInvite');
