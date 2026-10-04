@@ -115,10 +115,23 @@ for(let score=1;score<=10;score++){
 function saveState(){const x=document.getElementById('saveStatus');try{state.savedAt=Date.now();const payload=JSON.stringify(state);localStorage.setItem(STORAGE,payload);const check=localStorage.getItem(STORAGE);if(check!==payload)throw new Error('save verification failed');if(x)x.textContent=state.finalOrder&&state.finalOrder.length?'ranking saved':'saved locally'}catch(e){if(x)x.textContent='save failed';console.error('Could not save Taylor Ranker state',e)}}
 window.addEventListener('pagehide',saveState);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveState()});
-function updateGlobalNav(){const back=document.getElementById('globalBack'),home=document.getElementById('globalHome'),undo=document.getElementById('globalUndo');if(!back||!home||!undo)return;const atStart=state.phase==='start';back.style.display=atStart?'none':'';home.style.display=atStart?'none':'';undo.style.display=(state.phase==='refine'&&state.refineHistory.length)?'':'none';back.textContent='←';home.textContent='⌂';undo.textContent='↶'}
+function updateGlobalNav(){const back=document.getElementById('globalBack'),home=document.getElementById('globalHome'),undo=document.getElementById('globalUndo');if(!back||!home||!undo)return;const atStart=state.phase==='start';back.style.display=atStart?'none':'';home.style.display=atStart?'none':'';undo.style.display=(state.phase==='refine'&&state.refineHistory.length)?'':'none';if(state.phase==='refine'){back.textContent='✓';back.setAttribute('aria-label','Save and exit');back.title='Save and exit'}else{back.textContent='←';back.setAttribute('aria-label','Back');back.title='Back'}home.textContent='⌂';undo.textContent='↶'}
 function section(id){['start','ratings','missing','summary','refine','results','sharedInvite','importer'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');state.phase=id;saveState();updateGlobalNav();window.scrollTo({top:0,behavior:'instant'})}
 function goHome(){section('start')}
-function appBack(){if(state.phase==='refine'){if(state.crossTierMode){state.crossTierMode=false;state.crossTierSong=null;section('results');renderResults();return}if(state.refineHistory.length)return undoRefine();section('summary');renderSummary();return}if(state.phase==='ratings'){if(state.albumIndex>0){state.albumIndex--;saveState();renderAlbum();updateGlobalNav()}else goHome();return}if(state.phase==='summary'){section('ratings');state.albumIndex=Math.max(0,ALBUMS.length-1);saveState();renderAlbum();return}if(state.phase==='results'){section('summary');renderSummary();return}if(state.phase==='missing'){section('summary');renderSummary();return}if(state.phase==='sharedInvite'){dismissSharedInvite();return}if(state.phase==='importer'){goHome();return}goHome()}
+function saveAndExit(){
+  saveState();
+  if(state.placementMode){
+    const ret=state.placementReturn||'missing';
+    state.placementMode=false;state.placementSong=null;state.placementOrder=[];state.placementLow=0;state.placementHigh=0;
+    if(ret==='results'){section('results');renderResults();return}
+    if(ret==='queue'){section('missing');renderMissingScores();return}
+    section('missing');renderMissingScores();return;
+  }
+  if(state.crossTierMode){state.crossTierMode=false;state.crossTierSong=null;state.crossTierFrom=null;state.crossTierTo=null;section('results');renderResults();return}
+  if(state.mandatoryRefine){state.mandatoryRefine=false;state.activeTierScore=null;section('summary');renderSummary();return}
+  section('results');renderResults();
+}
+function appBack(){if(state.phase==='refine')return saveAndExit();if(state.phase==='ratings'){if(state.albumIndex>0){state.albumIndex--;saveState();renderAlbum();updateGlobalNav()}else goHome();return}if(state.phase==='summary'){section('ratings');state.albumIndex=Math.max(0,ALBUMS.length-1);saveState();renderAlbum();return}if(state.phase==='results'){section('summary');renderSummary();return}if(state.phase==='missing'){section('summary');renderSummary();return}if(state.phase==='sharedInvite'){dismissSharedInvite();return}if(state.phase==='importer'){goHome();return}goHome()}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function albumSongs(album){return SONGS.filter(s=>s.album===album)}
 function ratedCount(){return SONGS.filter(s=>state.ratings[s.id]!=null||state.unknown[s.id]).length}
