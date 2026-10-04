@@ -64,7 +64,7 @@ h1{font-size:24px}h2{font-size:22px}
 <section id="missing" class="panel hidden"><h1>Unscored songs</h1><p>Only songs without a score are shown here. Give them quick 1–10s and keep moving. We won’t interrupt you with swipes while you’re batch scoring.</p><div id="missingSongList" class="song-list"></div><div id="missingPlacementOffer" class="notice hidden" style="margin-top:14px"></div><div class="actions"><button class="btn primary" onclick="finishMissingScores()">Done →</button><button class="btn soft" onclick="section('summary');renderSummary()">Skip for now</button></div></section>
 <section id="summary" class="panel hidden"><h1>Your quick scores</h1><p id="summaryText">Here’s the first-pass picture. You can stop here and browse your scores, or refine the close calls into an actual song order.</p><div id="albumSummary" class="summary-grid"></div><div class="actions"><button class="btn primary" onclick="startRefine()">Refine my ranking</button><button class="btn" onclick="openResults('songs')">Results & compare</button><button class="btn" onclick="showScoreTable()">See all my scores</button><button class="btn" onclick="showUnscored()">Rank unscored songs</button><button class="btn soft" onclick="resumeRatings()">Edit all scores</button><button class="btn" onclick="openCloudSaves('save')">Save for later</button><button class="btn soft" onclick="goHome()">Home</button></div><div id="scoreTable"></div></section>
 <section id="refine" class="panel hidden"><div id="refineStatus" class="small" style="text-align:center;margin-bottom:8px">Refine your ranking · stop whenever you want</div><h2 style="text-align:center">Which do you prefer?</h2><p style="text-align:center;margin-top:4px">Swipe toward your pick, or use the buttons. Swipe up if you’re genuinely not sure.</p><div id="swipeZone" class="swipe-zone"><div id="pair" class="pair"><button class="choice" id="leftChoice" onclick="chooseRefine('left')" aria-label="Choose left song"></button><div class="vs">VS</div><button class="choice" id="rightChoice" onclick="chooseRefine('right')" aria-label="Choose right song"></button></div><div class="swipe-hint">Swipe anywhere on this screen · ← left wins &nbsp; · &nbsp; ↑ not sure &nbsp; · &nbsp; right wins →</div></div><div class="refine-buttons"><button class="btn refine-icon" onclick="chooseRefine('left')" id="leftBtn" aria-label="Choose left song" title="Left song">←</button><button class="btn refine-icon not-sure" onclick="chooseRefine('unsure')" aria-label="Not sure" title="Not sure">↑</button><button class="btn refine-icon" onclick="chooseRefine('right')" id="rightBtn" aria-label="Choose right song" title="Right song">→</button></div><button class="btn danger wide" style="margin-top:9px" onclick="toggleUnknownPicker()">I don’t know one of these songs</button><div id="unknownPicker" class="unknown-picker hidden"><div class="small">Which one don’t you know?</div><div class="grid"><button class="btn" id="unknownLeft" onclick="markUnknownRefine('left')"></button><button class="btn" id="unknownRight" onclick="markUnknownRefine('right')"></button></div></div><div class="footer-actions"><button class="btn primary" onclick="finishRefine()">See my ranking</button><button class="btn soft" onclick="section('summary');renderSummary()">Back to scores</button></div></section>
-<section id="results" class="panel hidden"><h1>Your ranking</h1><p id="resultSummary"></p><details id="refinementStatusBox" style="margin-top:12px"><summary style="cursor:pointer;font-weight:800">Refinement status</summary><div id="refinementStatus" style="margin-top:10px"></div></details><div class="actions"><button class="btn primary" id="refineMoreBtn" onclick="refineMore()">Keep refining</button><button class="btn" onclick="shareResults()">Share my results</button><button class="btn" onclick="openCloudSaves('save')">Save for later</button><button class="btn" onclick="showUnscored()">Rank unscored songs</button><button class="btn" onclick="section('summary');renderSummary()">Quick scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button><button class="btn tab" onclick="showTab('share',this)">Save / share</button></div><div id="rankAdjustPanel" class="hidden"></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden"><div id="criticSourceNote" class="notice" style="margin-bottom:12px">Loading published rankings…</div><div class="grid2"><div><label class="small">Name</label><input id="compareName" placeholder="e.g. Sam"></div><div><label class="small">Paste their ranking</label><textarea id="compareText" placeholder="Song|1;Song|2;..."></textarea></div></div><button class="btn" style="margin-top:10px" onclick="addComparison()">Add comparison column</button><div id="comparisonList" class="small" style="margin-top:12px"></div><div id="compareTable"></div></div><div id="tab-share" class="hidden"><div id="cloudShareStatus" class="notice" style="margin-bottom:14px"></div><p>Copy this anywhere. Paste it back later to restore your final ranking, or send it to someone so they can add you as a comparison column.</p><textarea id="exportText" readonly></textarea><div class="actions"><button class="btn primary" onclick="copyExport(event)">Copy ranking</button><button class="btn" onclick="downloadExport()">Download text</button></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Shareable quiz link</div><input id="shareLink" readonly><div class="actions"><button class="btn primary" onclick="copyShareLink(event)">Copy invite link</button></div></div></div></section>
+<section id="results" class="panel hidden"><h1>Your ranking</h1><p id="resultSummary"></p><details id="refinementStatusBox" style="margin-top:12px"><summary style="cursor:pointer;font-weight:800">Refinement status</summary><div id="refinementStatus" style="margin-top:10px"></div></details><div class="actions"><button class="btn primary" id="refineMoreBtn" onclick="refineMore()">Keep refining</button><button class="btn soft hidden" id="resultUndoBtn" onclick="undoResultAdjustment()">Undo last adjustment</button><button class="btn" onclick="shareResults()">Share my results</button><button class="btn" onclick="openCloudSaves('save')">Save for later</button><button class="btn" onclick="showUnscored()">Rank unscored songs</button><button class="btn" onclick="section('summary');renderSummary()">Quick scores</button><button class="btn soft" onclick="goHome()">Home</button></div><div class="tabs"><button class="btn tab active" onclick="showTab('songs',this)">Songs</button><button class="btn tab" onclick="showTab('albums',this)">Albums</button><button class="btn tab" onclick="showTab('compare',this)">Compare</button><button class="btn tab" onclick="showTab('share',this)">Save / share</button></div><div id="rankAdjustPanel" class="hidden"></div><div id="tab-songs"></div><div id="tab-albums" class="hidden"></div><div id="tab-compare" class="hidden"><div id="criticSourceNote" class="notice" style="margin-bottom:12px">Loading published rankings…</div><div class="grid2"><div><label class="small">Name</label><input id="compareName" placeholder="e.g. Sam"></div><div><label class="small">Paste their ranking</label><textarea id="compareText" placeholder="Song|1;Song|2;..."></textarea></div></div><button class="btn" style="margin-top:10px" onclick="addComparison()">Add comparison column</button><div id="comparisonList" class="small" style="margin-top:12px"></div><div id="compareTable"></div></div><div id="tab-share" class="hidden"><div id="cloudShareStatus" class="notice" style="margin-bottom:14px"></div><p>Copy this anywhere. Paste it back later to restore your final ranking, or send it to someone so they can add you as a comparison column.</p><textarea id="exportText" readonly></textarea><div class="actions"><button class="btn primary" onclick="copyExport(event)">Copy ranking</button><button class="btn" onclick="downloadExport()">Download text</button></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)"><div class="small" style="margin-bottom:8px">Shareable quiz link</div><input id="shareLink" readonly><div class="actions"><button class="btn primary" onclick="copyShareLink(event)">Copy invite link</button></div></div></div></section>
 <section id="sharedInvite" class="panel hidden"><h1 id="sharedInviteTitle">Someone sent you their Taylor ranking</h1><p id="sharedInviteText">You can peek at their results now, or take the quiz first and compare when you’re done.</p><div class="actions"><button class="btn primary" onclick="startFromShared()">Take the quiz</button><button class="btn" onclick="viewSharedResults()">View their ranking</button><button class="btn soft" onclick="dismissSharedInvite()">Not now</button></div></section>
 <section id="importer" class="panel hidden"><h1>Import ranking</h1><p>Paste a ranking previously exported from this app.</p><textarea id="restoreText"></textarea><div class="actions"><button class="btn primary" onclick="restoreRanking()">Restore</button><button class="btn soft" onclick="goHome()">Cancel</button></div></section>
 </div><script>
@@ -255,7 +255,7 @@ async function loadCloudRanking(id){
     const rec=rows&&rows[0];if(!rec)throw new Error('Save not found');
     const loaded=Object.assign(blankState(),rec.ranking_state||{});
     loaded.cloudSaveId=rec.id;loaded.cloudShareCode=rec.share_code;loaded.cloudUsername=rec.username;loaded.cloudUpdatedAt=rec.updated_at;
-    loaded.ratings=loaded.ratings||{};loaded.unknown=loaded.unknown||{};loaded.refineDelta=loaded.refineDelta||{};loaded.refineSeen=loaded.refineSeen||{};loaded.refineSkipped=loaded.refineSkipped||{};loaded.comparisons=loaded.comparisons||[];loaded.refineHistory=loaded.refineHistory||[];loaded.tierOrders=loaded.tierOrders||{};loaded.tierSorted=loaded.tierSorted||{};loaded.rankTier=loaded.rankTier||{};
+    loaded.ratings=loaded.ratings||{};loaded.unknown=loaded.unknown||{};loaded.refineDelta=loaded.refineDelta||{};loaded.refineSeen=loaded.refineSeen||{};loaded.refineSkipped=loaded.refineSkipped||{};loaded.comparisons=loaded.comparisons||[];loaded.refineHistory=loaded.refineHistory||[];loaded.resultHistory=loaded.resultHistory||[];loaded.tierOrders=loaded.tierOrders||{};loaded.tierSorted=loaded.tierSorted||{};loaded.rankTier=loaded.rankTier||{};
     state=loaded;localStorage.setItem(STORAGE,JSON.stringify(state));
     if(hasActiveRefinement()){section('refine');if(state.pair)renderRefinePair();else nextRefinePair();return}
     if((state.finalOrder||[]).length){section('results');renderResults();return}
@@ -271,8 +271,8 @@ async function cloudSourceFromShareCode(code){
   return {v:2,n:rec.username||'Friend',o:order,u:Object.keys(rs.unknown||{}).filter(id=>rs.unknown[id]),savedAt:rec.updated_at};
 }
 const STORAGE='taylor-ranker-v4';
-function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',pendingPlacementIds:[],tierOrders:{},tierSorted:{},activeTierScore:null,rankTier:{},crossTierMode:false,crossTierSong:null,crossTierFrom:null,crossTierTo:null,crossTierReturn:'results',refineExitReturn:'results',cloudSaveId:null,cloudShareCode:null,cloudUsername:null,cloudUpdatedAt:null,savedAt:null}}
-function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[],tierOrders:s.tierOrders||{},tierSorted:s.tierSorted||{},rankTier:s.rankTier||{}})}catch(e){return null}}
+function blankState(){return{phase:'start',ratings:{},unknown:{},albumIndex:0,refineDelta:{},refineSeen:{},refineSkipped:{},refineDone:0,pair:null,finalOrder:[],comparisons:[],refineHistory:[],sharedSource:null,mandatoryRefine:false,mandatoryScore:null,mandatoryOrder:[],mandatoryQueue:[],mandatoryCandidate:null,mandatoryLow:0,mandatoryHigh:0,placementMode:false,placementSong:null,placementOrder:[],placementLow:0,placementHigh:0,placementReturn:'missing',pendingPlacementIds:[],tierOrders:{},tierSorted:{},activeTierScore:null,rankTier:{},crossTierMode:false,crossTierSong:null,crossTierFrom:null,crossTierTo:null,crossTierReturn:'results',refineExitReturn:'results',cloudSaveId:null,cloudShareCode:null,cloudUsername:null,cloudUpdatedAt:null,resultHistory:[],savedAt:null}}
+function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return null;const s=JSON.parse(raw);return Object.assign(blankState(),s,{ratings:s.ratings||{},unknown:s.unknown||{},refineDelta:s.refineDelta||{},refineSeen:s.refineSeen||{},refineSkipped:s.refineSkipped||{},comparisons:s.comparisons||[],refineHistory:s.refineHistory||[],resultHistory:s.resultHistory||[],tierOrders:s.tierOrders||{},tierSorted:s.tierSorted||{},rankTier:s.rankTier||{}})}catch(e){return null}}
 let state=loadState()||blankState();
 for(const id of Object.keys(state.ratings||{})){const n=Number(state.ratings[id]);if(Number.isFinite(n))state.ratings[id]=Math.max(1,Math.min(10,Math.round(n)));else delete state.ratings[id]}
 if(!state.tierOrders||typeof state.tierOrders!=='object')state.tierOrders={};
@@ -764,7 +764,7 @@ function renderRefinementStatus(){
   }
   el.innerHTML=`<div class="refine-status-list">${rows.join('')}</div>`+(allTiersSorted()?'<div class="small" style="margin-top:10px">All score groups are ranked. Use Adjust on a song to challenge the tier above.</div>':'');
 }
-function renderResults(){ensureFinalOrder();saveState();const final=getFinal();const refined=Object.keys(state.refineSeen||{}).some(k=>k.includes('|'));const nextTier=highestUnsortedTier();const refineBtn=document.getElementById('refineMoreBtn');if(refineBtn)refineBtn.textContent=hasActiveRefinement()?'Resume refinement':nextTier!=null?`Refine ${nextTier}s`:'Refinement options';document.getElementById('resultSummary').textContent=nextTier!=null?`${final.length} songs ranked by score tiers. Next up: sort your ${nextTier}s.`:`${final.length} songs ranked · every score tier is sorted. You can now use Adjust on any song to challenge the tier above.`;renderRefinementStatus();renderSongTable();renderAlbums();renderCompare();document.getElementById('exportText').value=makeExport();const sl=document.getElementById('shareLink');if(sl)sl.value=makeShareLink()||'Save for later first to create a short share link';updateCloudIndicators()}
+function renderResults(){ensureFinalOrder();saveState();const final=getFinal();const refined=Object.keys(state.refineSeen||{}).some(k=>k.includes('|'));const nextTier=highestUnsortedTier();const refineBtn=document.getElementById('refineMoreBtn');const resultUndoBtn=document.getElementById('resultUndoBtn');if(resultUndoBtn)resultUndoBtn.classList.toggle('hidden',!(state.resultHistory||[]).length);if(refineBtn)refineBtn.textContent=hasActiveRefinement()?'Resume refinement':nextTier!=null?`Refine ${nextTier}s`:'Refinement options';document.getElementById('resultSummary').textContent=nextTier!=null?`${final.length} songs ranked by score tiers. Next up: sort your ${nextTier}s.`:`${final.length} songs ranked · every score tier is sorted. You can now use Adjust on any song to challenge the tier above.`;renderRefinementStatus();renderSongTable();renderAlbums();renderCompare();document.getElementById('exportText').value=makeExport();const sl=document.getElementById('shareLink');if(sl)sl.value=makeShareLink()||'Save for later first to create a short share link';updateCloudIndicators()}
 function renderSongTable(){const final=getFinal();let h='<div class="table-wrap"><table><thead><tr><th>#</th><th>Song</th><th>Quick score</th><th>Album / context</th><th></th></tr></thead><tbody>';final.forEach((s,i)=>h+=`<tr class="result-row" style="--era:${eraColor(s.album)}"><td class="rank">${i+1}</td><td><span class="song-era-dot"></span>${esc(s.title)}</td><td>${displayScore(state.ratings[s.id])}</td><td class="albumcell">${esc(s.album)}${s.context?`<div class="small">${esc(s.context)}</div>`:''}</td><td><button class="adjust-btn" onclick="openRankAdjust('${s.id}')">Adjust</button></td></tr>`);document.getElementById('tab-songs').innerHTML=h+'</tbody></table></div>'}
 function openRankAdjust(id){
   const s=SONG_BY_ID[id];if(!s)return;
@@ -783,8 +783,30 @@ function openRankAdjust(id){
   panel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function closeRankAdjust(){const p=document.getElementById('rankAdjustPanel');p.className='hidden';p.innerHTML=''}
+function pushResultAdjustment(){
+  const snap={
+    ratings:{...state.ratings},
+    unknown:{...state.unknown},
+    finalOrder:[...(state.finalOrder||[])],
+    tierOrders:JSON.parse(JSON.stringify(state.tierOrders||{})),
+    tierSorted:{...(state.tierSorted||{})},
+    rankTier:{...(state.rankTier||{})}
+  };
+  state.resultHistory=state.resultHistory||[];
+  state.resultHistory.push(snap);
+  if(state.resultHistory.length>25)state.resultHistory.shift();
+}
+function undoResultAdjustment(){
+  const h=(state.resultHistory||[]).pop();if(!h)return;
+  state.ratings={...h.ratings};state.unknown={...h.unknown};
+  state.finalOrder=[...h.finalOrder];state.tierOrders=JSON.parse(JSON.stringify(h.tierOrders||{}));
+  state.tierSorted={...h.tierSorted};state.rankTier={...h.rankTier};
+  state.placementMode=false;state.placementSong=null;state.placementOrder=[];state.placementLow=0;state.placementHigh=0;state.pair=null;
+  saveState();section('results');renderResults();
+}
 function moveSongToRank(id,rank){
-  const score=scoreOf(id),tier=tierExistingOrder(score).filter(x=>x!==id);
+  pushResultAdjustment();
+  const score=effectiveTier(id),tier=tierExistingOrder(score).filter(x=>x!==id);
   const target=Math.max(1,Math.min(tier.length+1,Number(rank)||1));
   tier.splice(target-1,0,id);
   state.tierOrders[score]=tier;state.tierSorted[score]=true;composeTierRanking();
@@ -798,9 +820,38 @@ function promptSongRank(id){
   moveSongToRank(id,n);
 }
 function correctSongScore(id,v){
-  const old=effectiveTier(id);state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];delete state.rankTier[id];
-  if(old)state.tierSorted[old]=false;state.tierSorted[v]=false;composeTierRanking();
-  saveState();renderResults();openRankAdjust(id);
+  v=Number(v);
+  const old=effectiveTier(id);
+  const oldQuick=scoreOf(id);
+  if(oldQuick===v&&!state.rankTier?.[id])return;
+  pushResultAdjustment();
+
+  const oldWasSorted=!!state.tierSorted?.[old];
+  const targetWasSorted=!!state.tierSorted?.[v];
+  const oldOrder=tierExistingOrder(old).filter(x=>x!==id);
+  const targetOrder=(old===v?oldOrder:tierExistingOrder(v).filter(x=>x!==id));
+
+  state.ratings[id]=v;delete state.unknown[id];delete state.refineDelta[id];delete state.rankTier[id];
+
+  state.tierOrders[old]=oldOrder;
+  state.tierSorted[old]=oldWasSorted;
+  state.tierOrders[v]=targetOrder;
+  state.tierSorted[v]=targetWasSorted;
+  composeTierRanking();
+
+  if(targetWasSorted){
+    if(targetOrder.length){
+      saveState();
+      return startPlacement(id,'results');
+    }
+    state.tierOrders[v]=[id];
+    state.tierSorted[v]=true;
+    composeTierRanking();saveState();renderResults();openRankAdjust(id);return;
+  }
+
+  state.tierOrders[v]=[...targetOrder,id];
+  state.tierSorted[v]=false;
+  composeTierRanking();saveState();renderResults();openRankAdjust(id);
 }
 function renderAlbums(){const rows=ALBUMS.map(album=>({album,avg:albumAvg(album),count:albumSongs(album).filter(s=>Number.isFinite(state.ratings[s.id])).length})).filter(x=>x.avg!=null).sort((a,b)=>b.avg-a.avg);let h='<h2>Album averages</h2><p>These remain the literal averages of your quick 1–10 scores. Refinement changes song order, not what you scored the album.</p><div class="summary-grid">';rows.forEach((x,i)=>h+=`<div class="summary-card era-card" style="--era:${eraColor(x.album)}"><b>${i+1}. ${esc(x.album)}</b><div class="score">${x.avg.toFixed(2)}</div><div class="small">${x.count} scored</div></div>`);document.getElementById('tab-albums').innerHTML=h+'</div>'}
 function makeExport(){return [...getFinal().map((s,i)=>`${s.title}|${i+1}`),...SONGS.filter(s=>state.unknown[s.id]).map(s=>`${s.title}|?`)].join(';')}
