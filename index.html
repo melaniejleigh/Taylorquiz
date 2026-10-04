@@ -100,7 +100,7 @@ const ERA_COLORS={
 function eraColor(album){return ERA_COLORS[album]||'#777'}
 function displayScore(v){if(!Number.isFinite(Number(v)))return '—';return String(Math.round(Number(v)))}
 let CRITIC_SOURCES=[];
-let compareSelected=null,compareSort='me';
+let compareSelected=null,compareSort='me',albumSort='weighted';
 function referenceSongIds(title){
   const n=normalizeImportTitle(title);
   if(n==='all too well both versions'){
@@ -888,7 +888,65 @@ function correctSongScore(id,v){
   state.tierSorted[v]=false;
   composeTierRanking();saveState();renderResults();openRankAdjust(id);
 }
-function renderAlbums(){const rows=ALBUMS.map(album=>({album,avg:albumAvg(album),count:albumSongs(album).filter(s=>Number.isFinite(state.ratings[s.id])).length})).filter(x=>x.avg!=null).sort((a,b)=>b.avg-a.avg);let h='<h2>Album averages</h2><p>These remain the literal averages of your quick 1–10 scores. Refinement changes song order, not what you scored the album.</p><div class="summary-grid">';rows.forEach((x,i)=>h+=`<div class="summary-card era-card" style="--era:${eraColor(x.album)}"><b>${i+1}. ${esc(x.album)}</b><div class="score">${x.avg.toFixed(2)}</div><div class="small">${x.count} scored</div></div>`);document.getElementById('tab-albums').innerHTML=h+'</div>'}
+function albumRefinedMetrics(album){
+  const songs=albumSongs(album).filter(s=>Number.isFinite(state.ratings[s.id])&&!state.unknown[s.id]);
+  if(!songs.length)return null;
+  const final=getFinal();
+  const rankMap={};final.forEach((s,i)=>rankMap[s.id]=i+1);
+  const n=Math.max(1,final.length);
+  const rankScore=id=>{
+    const r=rankMap[id];
+    if(!r)return null;
+    if(n===1)return 10;
+    return 10-(9*((r-1)/(n-1)));
+  };
+  const rankedScores=songs.map(s=>rankScore(s.id)).filter(v=>Number.isFinite(v));
+  const weighted=rankedScores.length?rankedScores.reduce((a,b)=>a+b,0)/rankedScores.length:null;
+  const refinedCount=songs.filter(s=>{
+    const tier=effectiveTier(s.id);
+    return tierSongs(tier).length<2||!!state.tierSorted?.[tier];
+  }).length;
+  const top=songs.slice().sort((a,b)=>(rankMap[a.id]||9999)-(rankMap[b.id]||9999))[0]||null;
+  return {
+    album,
+    raw:albumAvg(album),
+    weighted,
+    scored:songs.length,
+    total:albumSongs(album).length,
+    refinedCount,
+    top,
+    topRank:top?(rankMap[top.id]||null):null,
+    complete:refinedCount===songs.length
+  };
+}
+function setAlbumSort(mode){
+  albumSort=mode;renderAlbums();
+}
+function renderAlbums(){
+  const el=document.getElementById('tab-albums');if(!el)return;
+  let rows=ALBUMS.map(album=>albumRefinedMetrics(album)).filter(Boolean);
+  rows.sort((a,b)=>{
+    if(albumSort==='raw')return (b.raw??-1)-(a.raw??-1);
+    return (b.weighted??-1)-(a.weighted??-1);
+  });
+  let h='<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-end;flex-wrap:wrap"><div><h2 style="margin-bottom:4px">Albums</h2><div class="small">Raw is your literal 1–10 average. Weighted uses where each song actually lands in your overall ranking.</div></div><div class="actions" style="margin-top:0"><button class="btn '+(albumSort==='weighted'?'primary':'')+'" onclick="setAlbumSort(\'weighted\')">Weighted</button><button class="btn '+(albumSort==='raw'?'primary':'')+'" onclick="setAlbumSort(\'raw\')">Raw</button></div></div>';
+  h+='<div class="summary-grid" style="margin-top:14px">';
+  rows.forEach((x,i)=>{
+    const status=x.complete?'Fully refined ✓':x.refinedCount+' of '+x.scored+' scored songs refined';
+    h+=`<div class="summary-card era-card" style="--era:${eraColor(x.album)}">
+      <div class="small">${i+1} · ${albumSort==='weighted'?'weighted':'raw'} order</div>
+      <b style="display:block;margin-top:2px">${esc(x.album)}</b>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+        <div><div class="small">Weighted</div><div class="score">${x.weighted==null?'—':x.weighted.toFixed(2)}</div></div>
+        <div><div class="small">Raw</div><div class="score">${x.raw==null?'—':x.raw.toFixed(2)}</div></div>
+      </div>
+      <div class="small" style="margin-top:8px">${x.scored} of ${x.total} scored</div>
+      <div class="small">${esc(status)}</div>
+      ${x.top?`<div style="margin-top:9px"><div class="small">Top song</div><b>${x.topRank?'#'+x.topRank+' · ':''}${esc(x.top.title)}</b></div>`:''}
+    </div>`;
+  });
+  el.innerHTML=h+'</div>';
+}
 function makeExport(){return [...getFinal().map((s,i)=>`${s.title}|${i+1}`),...SONGS.filter(s=>state.unknown[s.id]).map(s=>`${s.title}|?`)].join(';')}
 function parseExport(txt){const parts=txt.split(/;|\n/).map(x=>x.trim()).filter(Boolean),ranks={},unknown=[];for(const p of parts){const m=p.match(/^(.*)\|\s*(\d+|\?)\s*$/);if(!m)continue;const s=SONGS.find(x=>x.title.toLowerCase()===m[1].trim().toLowerCase());if(!s)continue;if(m[2]==='?')unknown.push(s.id);else ranks[s.id]=Number(m[2])}return{ranks,unknown}}
 function compactSharePayload(){
