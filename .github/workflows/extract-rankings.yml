@@ -59,7 +59,7 @@ jobs:
                           if items:
                               prev=out["sources"].get(target,[])
                               if len(items)>len(prev): out["sources"][target]=items
-          Path("critic-ranking-extract.json").write_text(json.dumps(out,indent=2,ensure_ascii=False))
+          Path("critic-ranking-extract.json").write_text(json.dumps(out,indent=2,ensure_ascii=False,default=str))
           PY
       - name: Commit extracted data
         run: |
