@@ -1013,7 +1013,7 @@ function renderAlbums(){
       </div>
       <div id="albumDetail-${key}" class="album-rank-detail hidden">
         <div class="small" style="margin-bottom:6px">Raw ${x.raw==null?'—':x.raw.toFixed(2)} · Weighted ${x.weighted==null?'—':x.weighted.toFixed(2)}${x.top?` · Top: #${x.topRank} ${esc(x.top.title)}`:''}</div>
-        ${x.songs.map(s=>`<div class="album-song-row"><div class="album-song-rank">#${x.rankMap[s.id]||'—'}</div><div>${esc(s.title)}</div><div class="album-song-score">${displayScore(state.ratings[s.id])}</div></div>`).join('')}
+        ${x.songs.map(s=>{const r=x.rankMap[s.id];const fallback=!r&&Number.isFinite(state.ratings[s.id])?displayScore(state.ratings[s.id]):'';return `<div class="album-song-row"><div class="album-song-rank">${r?'#'+r:''}</div><div>${esc(s.title)}</div><div class="album-song-score">${r?'':fallback}</div></div>`}).join('')}
       </div>
     </div>`;
   });
