@@ -446,9 +446,21 @@ function finishMandatoryIfReady(){
   }
   return false;
 }
+function highestActualTierNeedingSort(){
+  for(let score=10;score>=1;score--){
+    if(tierSongs(score).length>=2)return score;
+  }
+  return null;
+}
 function ensureMandatoryBeforeResults(tab='songs'){
-  const topScore=highestUnsortedTier();
-  if(topScore==null)return openResultsDirect(tab);
+  const topScore=highestActualTierNeedingSort();
+  if(topScore==null||state.tierSorted?.[topScore])return openResultsDirect(tab);
+  if(state.mandatoryRefine&&Number(state.mandatoryScore)===Number(topScore)){
+    state.pendingResultsTab=tab;
+    section('refine');
+    if(state.pair)renderRefinePair();else nextRefinePair();
+    return;
+  }
   state.pendingResultsTab=tab;
   setupTierSort(topScore);
   saveState();section('refine');nextRefinePair();
