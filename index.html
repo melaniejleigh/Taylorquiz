@@ -780,12 +780,12 @@ function renderCompare(){
   }
   document.getElementById('comparisonList').innerHTML=comps.length?comps.map((c,i)=>`<span class="pill">${esc(c.name)} <button onclick="removeComparison(${i})" style="all:unset;cursor:pointer;margin-left:5px">×</button></span>`).join(' '):'No friend comparisons added yet.';
   const final=getFinal();
-  let h='<div class="table-wrap"><table class="compare-table"><thead><tr><th>#</th><th>Song</th><th class="vertical-head"><span>Yours</span></th>';
+  let h='<div class="table-wrap"><table class="compare-table"><thead><tr><th>#</th><th>Song</th>';
   CRITIC_SOURCES.forEach(s=>h+=`<th class="vertical-head" title="${esc(s.subtitle)}"><span>${esc(s.short||s.label)}</span></th>`);
   comps.forEach(c=>h+=`<th class="vertical-head"><span>${esc(c.name)}</span></th>`);
   h+='</tr></thead><tbody>';
   final.forEach((s,i)=>{
-    h+=`<tr class="result-row" style="--era:${eraColor(s.album)}"><td class="rank">${i+1}</td><td><span class="song-era-dot"></span>${esc(s.title)}</td><td>${i+1}</td>`;
+    h+=`<tr class="result-row" style="--era:${eraColor(s.album)}"><td class="rank">${i+1}</td><td><span class="song-era-dot"></span>${esc(s.title)}</td>`;
     CRITIC_SOURCES.forEach(src=>h+=`<td>${src.ranks[s.id]??'—'}</td>`);
     comps.forEach(c=>h+=`<td>${c.ranks[s.id]??'—'}</td>`);
     h+='</tr>';
